@@ -1,6 +1,6 @@
 ﻿using Meteoro.ViewModels.ViewModel;
-using System;
-using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,14 +50,29 @@ namespace Meteoro.DesktopWpfCorte.Views
                 _context.SecurePassword = ((dynamic)DataContext).SecurePassword;
             }
         }
+        private void btnToMain_Click(object sender, RoutedEventArgs e)
+        {
+            if (_context.IsLogued)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(200);
 
+                    Dispatcher.Invoke(() =>
+                    {
+                        var main = new Main();
+                        Application.Current.MainWindow = main;
+                        main.Show();
+                        this.Close();
+                    });
+                });
+            }
+        }
 
         #endregion
 
-      
-        private void btnDialog_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+
+
     }
 }

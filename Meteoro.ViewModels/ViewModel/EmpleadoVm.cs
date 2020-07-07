@@ -66,9 +66,10 @@ namespace Meteoro.ViewModels.ViewModel
                     else
                     {
                         IsBusy = false;
-                        Msj = "Usuario y/o contraseña incorrectos";
-                        //await Task.Delay(3000);
-                        //Msj = string.Empty;
+                        IsLogued = false;
+                        NotIsLogued = true;
+                        Msj = $"Error de usuario y/o contraseña, por favor verifique";
+
                     }
                 }
                 else
@@ -206,6 +207,17 @@ namespace Meteoro.ViewModels.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        private bool notIsLogued;
+
+        public bool NotIsLogued
+        {
+            get { return notIsLogued; }
+            set
+            {
+                notIsLogued = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private bool isBusy;
 
@@ -219,7 +231,6 @@ namespace Meteoro.ViewModels.ViewModel
         }
 
         private string msj;
-
         public string Msj
         {
             get { return msj; }
