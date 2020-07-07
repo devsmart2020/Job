@@ -9,21 +9,32 @@
     Title="Main"
     Width="1280"
     Height="720"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    MouseDown="Window_MouseDown"
     ResizeMode="NoResize"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
     <StackPanel Background="WhiteSmoke">
         <Grid Height="40">
-            <StackPanel Margin="20,0" HorizontalAlignment="Left">
-                <ComboBox
-                    Width="50"
-                    VerticalAlignment="Center"
-                    FontSize="15"
-                    Foreground="#FFA2A2A2"
-                    SelectedIndex="0">
-                    <ComboBoxItem Content="EN" />
-                </ComboBox>
+            <StackPanel
+                Margin="20,5,0,20"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <TextBlock
+                    Foreground="DarkGray"
+                    Text="Versión: "
+                    TextAlignment="Left" />
+                <TextBlock
+                    Foreground="DarkGray"
+                    Text="1.0.0"
+                    TextAlignment="Left" />
             </StackPanel>
             <StackPanel
                 Margin="20,0"
@@ -33,31 +44,7 @@
                     VerticalAlignment="Center"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    Content="FAQ"
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Foreground="#FFA2A2A2" />
-                <Button
-                    VerticalAlignment="Center"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="CONTACT"
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Foreground="#FFA2A2A2" />
-                <Button
-                    VerticalAlignment="Center"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="ORDER STATUS"
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Foreground="#FFA2A2A2" />
-                <Button
-                    VerticalAlignment="Center"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="MY ACCOUNT"
+                    Content="MI CUENTA"
                     FontSize="15"
                     FontWeight="Bold"
                     Foreground="#FFA2A2A2" />
@@ -75,7 +62,15 @@
             </StackPanel>
         </Grid>
         <Grid Height="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="405*" />
+                <ColumnDefinition Width="152*" />
+                <ColumnDefinition Width="14*" />
+                <ColumnDefinition Width="52*" />
+                <ColumnDefinition Width="17*" />
+            </Grid.ColumnDefinitions>
             <StackPanel
+                Grid.ColumnSpan="5"
                 Margin="10,0"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
@@ -85,68 +80,48 @@
                     Height="50"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    Content="HOME"
-                    Foreground="#FF2196F3" />
+                    Click="Button_Click"
+                    Content="COLABORADORES"
+                    Foreground="DarkGreen" />
                 <Button
                     Uid="1"
                     Width="150"
                     Height="50"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    Content="SHOP"
-                    Foreground="#FF2196F3" />
+                    Click="Button_Click"
+                    Content="COSECHA"
+                    Foreground="DarkGreen" />
                 <Button
                     Uid="2"
                     Width="150"
                     Height="50"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    Content="BLOG"
-                    Foreground="#FF2196F3" />
+                    Click="Button_Click"
+                    Content="REPORTES"
+                    Foreground="DarkGreen" />
                 <Button
                     Uid="3"
                     Width="150"
                     Height="50"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    Content="PAGES"
-                    Foreground="#FF2196F3" />
-                <Button
-                    Uid="4"
-                    Width="150"
-                    Height="50"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="PRODUCTS"
-                    Foreground="#FF2196F3" />
-                <Button
-                    Uid="5"
-                    Width="150"
-                    Height="50"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="BRANDS"
-                    Foreground="#FF2196F3" />
-                <Button
-                    Uid="6"
-                    Width="150"
-                    Height="50"
-                    Background="{x:Null}"
-                    BorderBrush="{x:Null}"
-                    Content="GIFT CARDS"
-                    Foreground="#FF2196F3" />
+                    Click="Button_Click"
+                    Content="AJUSTES"
+                    Foreground="DarkGreen" />
             </StackPanel>
             <Grid
                 x:Name="GridCursor"
                 Width="150"
                 Height="5"
-                Margin="10,0"
+                Margin="10,48,0,47"
                 HorizontalAlignment="Left"
-                Background="#FF2196F3" />
+                Background="DarkGreen" />
         </Grid>
         <Grid
             x:Name="GridMain"
-            Height="460"
-            Background="Aquamarine" />
+            Height="580"
+            Background="DarkGray" />
     </StackPanel>
 </Window>
