@@ -1,0 +1,32 @@
+﻿<Application
+    x:Class="Meteoro.DesktopWpfCorte.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Meteoro.DesktopWpfCorte"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme
+                    BaseTheme="Light"
+                    PrimaryColor="DeepPurple"
+                    SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+
+
+
+
+            </ResourceDictionary.MergedDictionaries>
+            <!--  Strings  -->
+            <system:String x:Key="lblTittleLogin">Ingreso Meteoro</system:String>
+            <!--  Images  -->
+            <Image x:Key="imgClose" Source="/Resources/close.png" />
+            <Image x:Key="imgAgregar" Source="/Resources/Agregar.png" />
+            <Image x:Key="imgAjustes" Source="/Resources/Ajustes.png" />
+            <Image x:Key="imgcerrarsesion" Source="/Resources/close.png" />
+            <Image x:Key="imgLogoJN" Source="/Resources/LogoJN.png" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,182 @@
+﻿<Window
+    x:Class="Meteoro.DesktopWpfCorte.Views.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Meteoro.DesktopWpfCorte.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel;assembly=Meteoro.ViewModels"
+    x:Name="frmLogin"
+    Title="Ingreso Meteoro Corte"
+    Width="590"
+    Height="360"
+    Background="{DynamicResource MaterialDesignPaper}"
+    BorderBrush="DarkGreen"
+    BorderThickness="2"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    MouseDown="frmLogin_MouseDown"
+    ResizeMode="NoResize"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <viewmodel:EmpleadoVm />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel
+            Grid.ColumnSpan="2"
+            Height="30"
+            Margin="0,0,-86,0"
+            VerticalAlignment="Top"
+            Background="DarkGreen">
+
+            <Button
+                Width="30"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Background="white"
+                Click="Button_Click"
+                Style="{StaticResource MaterialDesignToolButton}">
+                <materialDesign:PackIcon
+                    x:Name="btnClose"
+                    Width="20"
+                    Height="20"
+                    Background="Transparent"
+                    Foreground="WhiteSmoke"
+                    Kind="Power"
+                    ToolTip="Cerrar" />
+            </Button>
+        </DockPanel>
+
+        <Image
+            Grid.Column="0"
+            Height="80"
+            Margin="5,0,0,0"
+            Source="/Resources/LogoJN.png" />
+        <Label
+            Grid.Column="1"
+            Margin="80,54,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{StaticResource lblTittleLogin}"
+            FontSize="20"
+            FontWeight="Medium" />
+
+        <Grid
+            Grid.Column="2"
+            Margin="80,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel Margin="-2,6,2,-6" Orientation="Vertical">
+
+                <TextBox
+                    x:Name="txtUser"
+                    Width="200"
+                    Height="45"
+                    materialDesign:HintAssist.Foreground="DarkGreen"
+                    materialDesign:HintAssist.Hint="Usuario"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
+                    FontSize="16"
+                    Style="{DynamicResource MaterialDesignTextBox}"
+                    Text="{Binding Codigo}" />
+                <PasswordBox
+                    Width="200"
+                    Height="40"
+                    Margin="0,13,0,0"
+                    materialDesign:HintAssist.Foreground="DarkGreen"
+                    materialDesign:HintAssist.Hint="Contraseña"
+                    materialDesign:HintAssist.IsFloating="True"
+                    materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
+                    FontSize="16"
+                    PasswordChanged="txtPass_PasswordChanged"
+                    Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" />
+            </StackPanel>
+
+
+            <Button
+                x:Name="btnLogin"
+                Width="100"
+                Margin="50,134,50,-66"
+                Background="DarkGreen"
+                BorderBrush="DarkGreen"
+                Command="{Binding LoginCommand}"
+                FontWeight="Light"
+                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                ToolTip="Ingresar">
+
+                <materialDesign:PackIcon
+                    Width="24"
+                    Height="24"
+                    Kind="Login" />
+            </Button>
+
+            <materialDesign:DialogHost IsOpen="{Binding IsLogued}">
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Margin="15" Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Width="50"
+                            Height="50"
+                            Foreground="{StaticResource PrimaryHueMidBrush}"
+                            Kind="User" />
+                        <TextBlock
+                            Width="150"
+                            Margin="15,5"
+                            Foreground="Gray"
+                            Text="{Binding Msj}"
+                            TextWrapping="Wrap" />
+                        <StackPanel
+                            Margin="15"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Orientation="Horizontal">
+                            <Button
+                                Margin="4"
+                                VerticalAlignment="Center"
+                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                Style="{DynamicResource MaterialDesignFlatButton}">
+                                Ok
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                </materialDesign:DialogHost.DialogContent>
+
+            </materialDesign:DialogHost>
+
+
+
+        </Grid>
+
+
+        <syncfusion:SfBusyIndicator
+            Grid.Column="1"
+            Margin="149,317,69,3"
+            AnimationType="Ripple"
+            FontSize="10"
+            Foreground="DarkGreen"
+            IsBusy="{Binding IsBusy}" />
+
+
+    </Grid>
+
+</Window>

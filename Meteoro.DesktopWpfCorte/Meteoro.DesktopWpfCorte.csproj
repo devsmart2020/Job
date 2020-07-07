@@ -1,0 +1,132 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Agregar.png" />
+    <None Remove="Resources\Ajustes.png" />
+    <None Remove="Resources\arrowBack.png" />
+    <None Remove="Resources\arrowForward.png" />
+    <None Remove="Resources\candado.png" />
+    <None Remove="Resources\cerrarsesion_white.png" />
+    <None Remove="Resources\checkBlack.png" />
+    <None Remove="Resources\close.png" />
+    <None Remove="Resources\closeBig.png" />
+    <None Remove="Resources\corregir.png" />
+    <None Remove="Resources\download.png" />
+    <None Remove="Resources\flower.png" />
+    <None Remove="Resources\flower2.png" />
+    <None Remove="Resources\guardarWhite.png" />
+    <None Remove="Resources\load1.gif" />
+    <None Remove="Resources\load2Small.gif" />
+    <None Remove="Resources\lockOpen.png" />
+    <None Remove="Resources\login.png" />
+    <None Remove="Resources\LogoJN.jpg" />
+    <None Remove="Resources\LogoJN.png" />
+    <None Remove="Resources\LogoJN1.png" />
+    <None Remove="Resources\LogoJS.JPG" />
+    <None Remove="Resources\LogoJS.png" />
+    <None Remove="Resources\minimize.png" />
+    <None Remove="Resources\notification.png" />
+    <None Remove="Resources\notification2.png" />
+    <None Remove="Resources\NOtification2Gif.gif" />
+    <None Remove="Resources\NotificationGif.gif" />
+    <None Remove="Resources\people.png" />
+    <None Remove="Resources\reports.png" />
+    <None Remove="Resources\search.png" />
+    <None Remove="Resources\searchWhite.png" />
+    <None Remove="Resources\settings.png" />
+    <None Remove="Resources\Sunflower.ico" />
+    <None Remove="Resources\sync.png" />
+    <None Remove="Resources\uerconected.png" />
+    <None Remove="Resources\update.png" />
+    <None Remove="Resources\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.1.1" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.2.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.MaterialLight" Version="4.2.0" />
+    <PackageReference Include="MahApps.Metro.Resources" Version="0.6.1" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.6" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meteoro.ViewModels\Meteoro.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Syncfusion.Edit.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.Edit.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.GridCommon.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.GridCommon.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfBusyIndicator.WPF">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfBusyIndicator.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfInput.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfInput.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfShared.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfShared.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.Shared.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Tools.Wpf">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.Tools.Wpf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Agregar.png" />
+    <Resource Include="Resources\Ajustes.png" />
+    <Resource Include="Resources\arrowBack.png" />
+    <Resource Include="Resources\arrowForward.png" />
+    <Resource Include="Resources\candado.png" />
+    <Resource Include="Resources\cerrarsesion_white.png" />
+    <Resource Include="Resources\checkBlack.png" />
+    <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\closeBig.png" />
+    <Resource Include="Resources\corregir.png" />
+    <Resource Include="Resources\download.png" />
+    <Resource Include="Resources\flower.png" />
+    <Resource Include="Resources\flower2.png" />
+    <Resource Include="Resources\guardarWhite.png" />
+    <Resource Include="Resources\load1.gif" />
+    <Resource Include="Resources\load2Small.gif" />
+    <Resource Include="Resources\lockOpen.png" />
+    <Resource Include="Resources\login.png" />
+    <Resource Include="Resources\LogoJN.jpg" />
+    <Resource Include="Resources\LogoJN.png" />
+    <Resource Include="Resources\LogoJN1.png" />
+    <Resource Include="Resources\LogoJS.JPG" />
+    <Resource Include="Resources\LogoJS.png" />
+    <Resource Include="Resources\minimize.png" />
+    <Resource Include="Resources\notification.png" />
+    <Resource Include="Resources\notification2.png" />
+    <Resource Include="Resources\NOtification2Gif.gif" />
+    <Resource Include="Resources\NotificationGif.gif" />
+    <Resource Include="Resources\people.png" />
+    <Resource Include="Resources\reports.png" />
+    <Resource Include="Resources\search.png" />
+    <Resource Include="Resources\searchWhite.png" />
+    <Resource Include="Resources\settings.png" />
+    <Resource Include="Resources\Sunflower.ico" />
+    <Resource Include="Resources\sync.png" />
+    <Resource Include="Resources\uerconected.png" />
+    <Resource Include="Resources\update.png" />
+    <Resource Include="Resources\user.png" />
+  </ItemGroup>
+
+</Project>
