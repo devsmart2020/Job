@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dragablz.NetCore" Version="0.3.3" />
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.2.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.MaterialLight" Version="4.2.0" />
@@ -73,6 +74,9 @@
     </Reference>
     <Reference Include="Syncfusion.SfBusyIndicator.WPF">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfBusyIndicator.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfChart.WPF">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfChart.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfInput.Wpf">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\WPF\18.1.0.42\Assemblies\4.6\Syncfusion.SfInput.WPF.dll</HintPath>

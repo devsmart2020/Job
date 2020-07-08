@@ -75,7 +75,7 @@ namespace Meteoro.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("GetById")]
         public async Task<ActionResult<Tblempleado>> GetById(dynamic id)
         {
             if (id != null)

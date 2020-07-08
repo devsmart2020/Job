@@ -114,18 +114,20 @@
 
             <Button
                 x:Name="btnLogin"
-                Width="100"
+                Width="120"
                 Margin="50,134,50,-66"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Background="DarkGreen"
                 BorderBrush="DarkGreen"
                 Command="{Binding LoginCommand}"
                 FontWeight="Light"
-                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                Style="{StaticResource MaterialDesignRaisedAccentButton}"
                 ToolTip="Ingresar">
 
                 <materialDesign:PackIcon
                     Width="24"
                     Height="24"
+                    Foreground="WhiteSmoke"
                     Kind="Login" />
             </Button>
 
@@ -161,7 +163,6 @@
                     </StackPanel>
 
                 </materialDesign:DialogHost.DialogContent>
-
             </materialDesign:DialogHost>
 
             <materialDesign:DialogHost IsOpen="{Binding NotIsLogued}">

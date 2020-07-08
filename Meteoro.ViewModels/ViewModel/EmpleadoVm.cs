@@ -1,6 +1,6 @@
 ﻿using Meteoro.Entities.Entities;
 using Meteoro.Entities.Helpers;
-using Meteoro.Services.Interfaces;
+using Meteoro.Services.Data;
 using Meteoro.Services.Services;
 using Meteoro.ViewModels.BaseViewModel;
 using Meteoro.ViewModels.Helpers;
@@ -24,7 +24,8 @@ namespace Meteoro.ViewModels.ViewModel
         public EmpleadoVm()
         {
             _service = new EmpleadoSvc();
-            LoginCommand = new Command(ExecuteMethod, CanExecuteMethod);
+            LoginCommand = new Command(LoginExecute, CanExecuteMethod);
+            CrearEmpleadoCommand = new Command(CrearEmpleadoExecute, CanExecuteMethod);
         }
      
         #endregion
@@ -34,10 +35,15 @@ namespace Meteoro.ViewModels.ViewModel
         {
             return true;
         }
-        private async void ExecuteMethod(object parameter)
+        private async void LoginExecute(object parameter)
         {
             await Login();
         }
+        private async void CrearEmpleadoExecute(object parameter)
+        {
+            await CrearEmpleado();
+        }
+
         private protected async Task Login()
         {
             IsBusy = true;            
@@ -75,18 +81,60 @@ namespace Meteoro.ViewModels.ViewModel
                 else
                 {
                     IsBusy = false;
-                    Msj = "Error, entidad vacía, por favor contacte a soporte";
-                    await Task.Delay(3000);
-                    Msj = string.Empty;
+                    NotIsLogued = true;
+                    Msj = "Error, entidad vacía, por favor contacte a soporte";                
                 }
 
             }
             catch (Exception ex)
             {
                 IsBusy = false;
-                Msj = ex.Message.ToString();
-                await Task.Delay(3000);
-                Msj  = string.Empty;
+                NotIsLogued = true;
+                Msj = ex.Message.ToString();             
+            }
+        }
+        private protected async Task CrearEmpleado()
+        {
+            IsBusy = true;
+            try
+            {
+                _tblempleado = new Tblempleado()
+                {
+                    Codigo = Codigo,
+                    DocId = DocId,
+                    Nombre = Nombre,
+                    Pass = "12345",
+                    Estado = Estado,
+                    Periodo = Periodo,
+                    Area = 1,
+                    Empresa = "JS"
+                };
+                if(_tblempleado != null)
+                {
+                    if (IsSaved = await _service.Post(_tblempleado))
+                    {
+                        IsBusy = false;
+                        Msj = $"Colaborador /a registrado con éxito";
+                    }
+                    else
+                    {
+                        IsBusy = false;            
+                        NotSaved = true;
+                        Msj = WebService<Tblempleado>.ExceptionMsj;
+                    }
+                }
+                else
+                {
+                    IsBusy = false;
+                    NotSaved = true;
+                    Msj = $"Entidad vacía, por favor verifique o contácte a soporte";
+                }             
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                NotSaved = true;
+                Msj = $"{ex}";
             }
         }
         #endregion
@@ -187,6 +235,18 @@ namespace Meteoro.ViewModels.ViewModel
 
             }
         }
+        private bool notSaved;
+
+        public bool NotSaved
+        {
+            get { return notSaved; }
+            set
+            {
+                notSaved = value;
+                NotifyPropertyChanged();
+
+            }
+        }
         private Tblempleado userLogued;
 
         public Tblempleado UserLogued
@@ -218,6 +278,16 @@ namespace Meteoro.ViewModels.ViewModel
                 NotifyPropertyChanged();
             }
         }
+        private string buscar;
+
+        public string Buscar
+        {
+            get { return buscar; }
+            set { buscar = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         private bool isBusy;
 
@@ -244,6 +314,7 @@ namespace Meteoro.ViewModels.ViewModel
 
         #region Commands
         public ICommand LoginCommand { get; set; }
+        public ICommand CrearEmpleadoCommand { get; set; }
         #endregion
 
 
