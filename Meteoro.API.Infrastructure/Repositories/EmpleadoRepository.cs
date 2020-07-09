@@ -1,8 +1,8 @@
 ﻿using Meteoro.API.Core.Interfaces;
 using Meteoro.API.Infrastructure.Data;
 using Meteoro.Entities.Entities;
+using Meteoro.Entities.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -33,9 +33,21 @@ namespace Meteoro.API.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Tblempleado>> Get()
+        public async Task<IEnumerable<EmpleadosListado>> Get()
         {
-            return await _context.Tblempleado.ToListAsync();
+            IEnumerable<EmpleadosListado> tblempleado = await _context.Tblempleado
+            .Select(x => new EmpleadosListado
+            {
+                Codigo = x.Codigo,
+                Documento = x.DocId,
+                Nombre = x.Nombre,
+                Periodo = x.Periodo,
+                Area = x.AreaNavigation.Nombre,
+                Empresa = x.Empresa
+            })
+            .ToListAsync();            
+            return tblempleado;
+
         }
 
         public async Task<Tblempleado> GetById(dynamic id)
@@ -47,7 +59,7 @@ namespace Meteoro.API.Infrastructure.Repositories
         {
             return await _context.Tblempleado
                 .Where(x => entity.Codigo.Equals(x.Codigo) && entity.Pass.Equals(x.Pass) && x.Estado == true)
-                .FirstOrDefaultAsync();                
+                .FirstOrDefaultAsync();
         }
 
         public async Task<int> Post(Tblempleado entity)

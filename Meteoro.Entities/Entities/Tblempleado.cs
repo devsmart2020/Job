@@ -18,6 +18,7 @@ namespace Meteoro.Entities.Entities
         public bool Periodo { get; set; }
         public int Area { get; set; }
         public string Empresa { get; set; }
+ 
 
         public virtual Tblarea AreaNavigation { get; set; }
         public virtual Tblempresa EmpresaNavigation { get; set; }

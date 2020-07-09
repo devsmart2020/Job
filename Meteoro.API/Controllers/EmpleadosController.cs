@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meteoro.API.Core.Interfaces;
+﻿using Meteoro.API.Core.Interfaces;
 using Meteoro.Entities.Entities;
 using Meteoro.Entities.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Meteoro.API.Controllers
 {
@@ -41,9 +41,9 @@ namespace Meteoro.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tblempleado>>> Get()
+        public async Task<ActionResult<IEnumerable<EmpleadosListado>>> Get()
         {
-            IEnumerable<Tblempleado> Tblempleados = await _repository.Get();
+            IEnumerable<EmpleadosListado> Tblempleados = await _repository.Get();
             if (Tblempleados.Any())
             {
                 return Ok(Tblempleados);
@@ -125,7 +125,7 @@ namespace Meteoro.API.Controllers
                 Tblempleado tblempleado = await _repository.Login(entity);
                 if (tblempleado != null)
                 {
-                    
+
                     return Ok(tblempleado);
                 }
                 else

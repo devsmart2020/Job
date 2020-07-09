@@ -43,7 +43,7 @@
         <DockPanel
             Grid.ColumnSpan="2"
             Height="30"
-            Margin="0,0,-86,0"
+            Margin="0,0,-66,0"
             VerticalAlignment="Top"
             Background="DarkGreen">
 

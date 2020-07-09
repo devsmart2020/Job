@@ -6,6 +6,7 @@
     xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel;assembly=Meteoro.ViewModels"
     Title="Main"
     Width="1000"
@@ -25,9 +26,11 @@
     WindowStyle="None"
     mc:Ignorable="d">
 
+
     <Window.DataContext>
         <viewmodel:EmpleadoVm />
     </Window.DataContext>
+
 
     <Grid>
         <Grid
@@ -38,7 +41,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontFamily="Champagne &amp; Limousines"
-                FontSize="32"
+                FontSize="28"
                 Foreground="White"
                 Text="Meteoro - Desktop" />
             <Button
@@ -49,6 +52,8 @@
                 BorderBrush="{x:Null}"
                 Click="btnClose_Click">
                 <materialDesign:PackIcon
+                    Width="25"
+                    Height="25"
                     Foreground="WhiteSmoke"
                     Kind="Power"
                     ToolTip="Salir" />
@@ -95,7 +100,7 @@
                                         materialDesign:HintAssist.IsFloating="True"
                                         materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
                                         CharacterCasing="Upper"
-                                        FontSize="12"
+                                        FontSize="14"
                                         MaxLength="6"
                                         Style="{DynamicResource MaterialDesignTextBox}"
                                         Text="{Binding Codigo}" />
@@ -109,7 +114,7 @@
                                         materialDesign:HintAssist.IsFloating="True"
                                         materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
                                         CharacterCasing="Upper"
-                                        FontSize="12"
+                                        FontSize="14"
                                         MaxLength="15"
                                         Style="{DynamicResource MaterialDesignTextBox}"
                                         Text="{Binding DocId}" />
@@ -119,11 +124,11 @@
                                         Height="45"
                                         Margin="100,0,0,0"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
-                                        materialDesign:HintAssist.Hint="Nombre"
+                                        materialDesign:HintAssist.Hint="Apellidos y Nombres"
                                         materialDesign:HintAssist.IsFloating="True"
                                         materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
                                         CharacterCasing="Upper"
-                                        FontSize="12"
+                                        FontSize="14"
                                         MaxLength="70"
                                         Style="{DynamicResource MaterialDesignTextBox}"
                                         Text="{Binding Nombre}" />
@@ -132,25 +137,30 @@
 
                                 <StackPanel Margin="30,30" Orientation="Horizontal">
                                     <PasswordBox
+                                        x:Name="txtPass"
                                         Width="200"
                                         Height="40"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
                                         materialDesign:HintAssist.Hint="Contraseña"
                                         materialDesign:HintAssist.IsFloating="True"
                                         materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
-                                        FontSize="12"
+                                        FontSize="14"
                                         MaxLength="20"
+                                        PasswordChanged="txtPass_PasswordChanged"
                                         Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" />
 
                                     <ComboBox
                                         Width="200"
-                                        Height="35"
+                                        Height="40"
                                         Margin="100,0,0,0"
                                         materialDesign:HintAssist.Hint="Área"
                                         Background="WhiteSmoke"
-                                        FontSize="12"
-                                        Style="{DynamicResource MaterialDesignFilledComboBox}"
-                                        Text="{Binding Area}" />
+                                        DisplayMemberPath="Nombre"
+                                        FontSize="14"
+                                        ItemsSource="{Binding AreasList}"
+                                        SelectedValue="{Binding Area}"
+                                        SelectedValuePath="Codigo"
+                                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
 
                                     <GroupBox
                                         Margin="100,0"
@@ -160,16 +170,13 @@
                                             Margin="0,10"
                                             HorizontalAlignment="Center"
                                             Orientation="Horizontal">
-                                            <RadioButton
-                                                Margin="10,0"
-                                                Content="Prueba"
-                                                IsChecked="{Binding Periodo}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
-                                            <RadioButton
-                                                Margin="10,0"
+                                            <CheckBox
+                                                materialDesign:CheckBoxAssist.CheckBoxSize="23"
+                                                Background="DarkGreen"
                                                 Content="Vinculado"
-                                                IsChecked="{Binding Periodo}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
+                                                FontSize="14"
+                                                IsChecked="{Binding Periodo, Mode=TwoWay}"
+                                                Style="{DynamicResource MaterialDesignAccentCheckBox}" />
                                         </StackPanel>
                                     </GroupBox>
 
@@ -189,7 +196,7 @@
                                         Command="{Binding CrearEmpleadoCommand}"
                                         FontWeight="Light"
                                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                                        ToolTip="Guardar cambios">
+                                        ToolTip="Guardar datos">
                                         <materialDesign:PackIcon
                                             Width="24"
                                             Height="24"
@@ -204,11 +211,9 @@
                                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                                         Background="DarkGreen"
                                         BorderBrush="DarkGreen"
-                                        Command="{Binding LoginCommand}"
                                         FontWeight="Light"
                                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                         ToolTip="Actualizar datos">
-
                                         <materialDesign:PackIcon
                                             Width="24"
                                             Height="24"
@@ -217,67 +222,89 @@
                                     </Button>
 
                                     <GroupBox
-                                        Margin="240,0,0,0"
+                                        Margin="238,0,0,0"
                                         Header="Estado"
                                         Style="{DynamicResource MaterialDesignHeaderedContentControl}">
                                         <StackPanel
                                             Margin="0,10"
                                             HorizontalAlignment="Center"
                                             Orientation="Horizontal">
-                                            <RadioButton
-                                                Margin="10,0"
+                                            <CheckBox
+                                                materialDesign:CheckBoxAssist.CheckBoxSize="23"
+                                                Background="DarkGreen"
                                                 Content="Activo"
-                                                IsChecked="{Binding Estado}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
-                                            <RadioButton
-                                                Margin="10,0"
-                                                Content="Inactivo"
-                                                IsChecked="{Binding Estado}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
+                                                FontSize="14"
+                                                IsChecked="{Binding Estado, Mode=TwoWay}"
+                                                Style="{DynamicResource MaterialDesignAccentCheckBox}" />
                                         </StackPanel>
                                     </GroupBox>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal">
-                                    <GroupBox
-                                        Margin="0,30"
-                                        HorizontalAlignment="Center"
-                                        Header="Filtro"
-                                        Style="{DynamicResource MaterialDesignCardGroupBox}">
-                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                            <RadioButton
-                                                Content="Activos"
-                                                IsChecked="{Binding Estado}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
-                                            <RadioButton
-                                                Margin="20,0"
-                                                Content="Inactivos"
-                                                IsChecked="{Binding Estado}"
-                                                Style="{DynamicResource MaterialDesignDarkRadioButton}" />
-                                        </StackPanel>
-                                    </GroupBox>
                                     <TextBox
                                         Width="400"
-                                        Height="43"
-                                        Margin="15,30"
+                                        Height="40"
+                                        Margin="0,30"
                                         VerticalAlignment="Bottom"
                                         materialDesign:HintAssist.Hint="Buscar..."
                                         CharacterCasing="Upper"
-                                        FontSize="12"
+                                        FontSize="15"
                                         MaxLength="40"
                                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                                         Text="{Binding Buscar}" />
+                                    <GroupBox
+                                        Margin="20,30,0,0"
+                                        HorizontalAlignment="Center"
+                                        FontSize="15"
+                                        Header="Filtro"
+                                        Style="{DynamicResource MaterialDesignHeaderedContentControl}">
+                                        <StackPanel
+                                            Margin="0,2"
+                                            HorizontalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <RadioButton
+                                                Background="DarkGreen"
+                                                Content="Activos"
+                                                FontSize="14"
+                                                IsChecked="{Binding Filtro, Mode=OneWayToSource}"
+                                                Style="{DynamicResource MaterialDesignAccentRadioButton}" />
+                                            <RadioButton
+                                                Margin="10,0"
+                                                Background="DarkGreen"
+                                                Content="Inactivos"
+                                                FontSize="14"
+                                                IsChecked="{Binding Filtro, Mode=OneWayToSource}"
+                                                Style="{DynamicResource MaterialDesignAccentRadioButton}" />
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <!--  IsBusy  -->
+                                    <syncfusion:SfBusyIndicator
+                                        Margin="20,0"
+                                        AnimationType="Ripple"
+                                        FontSize="10"
+                                        Foreground="DarkGreen"
+                                        IsBusy="{Binding IsBusy}" />
+
                                 </StackPanel>
                                 <StackPanel>
                                     <DataGrid
+                                        x:Name="dgvEmpleados"
                                         Height="225"
                                         Margin="0,-20"
-                                        Background="DarkGray" />
+                                        materialDesign:DataGridAssist.ColumnHeaderPadding="10"
+                                        FontSize="12"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding EmpleadosList}"
+                                        RowStyle="{DynamicResource MaterialDesignDataGridRow}"
+                                        Style="{StaticResource MaterialDesignDataGrid}" />
+
+
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
 
-
+                        <!--#region Dialog-->
                         <materialDesign:DialogHost Margin="0,150,0,0" IsOpen="{Binding NotSaved}">
                             <materialDesign:DialogHost.DialogContent>
 
@@ -354,18 +381,19 @@
                                     <materialDesign:PackIcon
                                         Grid.RowSpan="3"
                                         Grid.Column="0"
-                                        Width="70"
-                                        Height="70"
+                                        Width="60"
+                                        Height="60"
+                                        Margin="10,0,0,35"
                                         VerticalAlignment="Center"
                                         Foreground="DarkGreen"
-                                        Kind="Check" />
+                                        Kind="CheckCircle" />
 
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        FontSize="16"
+                                        FontSize="18"
                                         Foreground="Gray"
                                         Text="{Binding Msj, Mode=TwoWay}"
                                         TextAlignment="Center"
@@ -393,6 +421,8 @@
                                 </Grid>
                             </materialDesign:DialogHost.DialogContent>
                         </materialDesign:DialogHost>
+                        <!--#endregion-->
+
                     </Grid>
                 </TabItem>
                 <!--#endregion-->
@@ -424,6 +454,7 @@
                         VerticalAlignment="Center"
                         Text="Ask for any question!" />
                 </TabItem>
+
                 <!--#endregion-->
 
             </dragablz:TabablzControl>

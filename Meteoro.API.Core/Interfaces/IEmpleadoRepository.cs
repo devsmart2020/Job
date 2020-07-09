@@ -1,4 +1,5 @@
 ﻿using Meteoro.Entities.Entities;
+using Meteoro.Entities.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Meteoro.API.Core.Interfaces
     {
         Task<int> Post(Tblempleado entity);
         Task<int> Put(Tblempleado entity);
-        Task<IEnumerable<Tblempleado>> Get();
+        Task<IEnumerable<EmpleadosListado>> Get();
         Task<Tblempleado> GetById(dynamic id);
         Task<int> Delete(dynamic id);
         Task<Tblempleado> Login(Tblempleado entity); 

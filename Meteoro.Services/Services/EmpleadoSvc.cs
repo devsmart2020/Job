@@ -1,4 +1,5 @@
 ﻿using Meteoro.Entities.Entities;
+using Meteoro.Entities.Helpers;
 using Meteoro.Services.Data;
 using Meteoro.Services.Interfaces;
 using System;
@@ -16,9 +17,10 @@ namespace Meteoro.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Tblempleado>> Get()
+        public async Task<IEnumerable<EmpleadosListado>> Get()
         {
-            throw new NotImplementedException();
+            WebService<EmpleadosListado>.InitializeClient();
+            return await WebService<EmpleadosListado>.GetAsync(RutaApi);
         }
 
         public Task<Tblempleado> GetById(string url)

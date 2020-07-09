@@ -6,7 +6,9 @@
         public static string DocId { get; set; }
         public static string Nombre { get; set; }   
         public static bool Periodo { get; set; }
-        public static int Area { get; set; }      
+        public static int Area { get; set; }     
+        
+        
 
     }
 }

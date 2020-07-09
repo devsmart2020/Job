@@ -5,7 +5,9 @@ using Meteoro.Services.Services;
 using Meteoro.ViewModels.BaseViewModel;
 using Meteoro.ViewModels.Helpers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,18 +18,29 @@ namespace Meteoro.ViewModels.ViewModel
     public class EmpleadoVm : BaseViewModel.BaseViewModel, INotifyPropertyChanged
     {
         #region Members Variables
-        private  EmpleadoSvc _service;
+        private EmpleadoSvc _service;
         private Tblempleado _tblempleado;
+        private AreaVm _areaVm;
         #endregion
 
         #region Constructor
         public EmpleadoVm()
         {
             _service = new EmpleadoSvc();
+            _areaVm = new AreaVm();
             LoginCommand = new Command(LoginExecute, CanExecuteMethod);
             CrearEmpleadoCommand = new Command(CrearEmpleadoExecute, CanExecuteMethod);
+            Task.Run(async () =>
+            {
+                AreasList = await _areaVm.ListarAreasCmd();
+            });
+
+            Task.Run(async () =>
+            {
+                await ListarEmpleado();
+            });
         }
-     
+
         #endregion
 
         #region Private Methods
@@ -46,7 +59,7 @@ namespace Meteoro.ViewModels.ViewModel
 
         private protected async Task Login()
         {
-            IsBusy = true;            
+            IsBusy = true;
             try
             {
                 _tblempleado = new Tblempleado()
@@ -67,14 +80,14 @@ namespace Meteoro.ViewModels.ViewModel
                         UsuarioConectado.Nombre = UserLogued.Nombre;
                         UsuarioConectado.Periodo = UserLogued.Periodo;
                         UsuarioConectado.Area = UserLogued.Area;
-                        Msj = $"Bienvenido /a {UsuarioConectado.Nombre}";                
+                        Msj = $"Bienvenido /a {UsuarioConectado.Nombre}";
                     }
                     else
                     {
                         IsBusy = false;
                         IsLogued = false;
                         NotIsLogued = true;
-                        Msj = $"Error de usuario y/o contraseña, por favor verifique";
+                        Msj = ResourceVm.MsjErrorLogin;
 
                     }
                 }
@@ -82,7 +95,7 @@ namespace Meteoro.ViewModels.ViewModel
                 {
                     IsBusy = false;
                     NotIsLogued = true;
-                    Msj = "Error, entidad vacía, por favor contacte a soporte";                
+                    Msj = ResourceVm.MsjErrorEntidadVacia;
                 }
 
             }
@@ -90,7 +103,7 @@ namespace Meteoro.ViewModels.ViewModel
             {
                 IsBusy = false;
                 NotIsLogued = true;
-                Msj = ex.Message.ToString();             
+                Msj = ex.Message.ToString();
             }
         }
         private protected async Task CrearEmpleado()
@@ -103,32 +116,34 @@ namespace Meteoro.ViewModels.ViewModel
                     Codigo = Codigo,
                     DocId = DocId,
                     Nombre = Nombre,
-                    Pass = "12345",
+                    Pass = Pass,
                     Estado = Estado,
                     Periodo = Periodo,
-                    Area = 1,
+                    Area = Area,
                     Empresa = "JS"
                 };
-                if(_tblempleado != null)
+                if (string.IsNullOrEmpty(_tblempleado.Codigo) || string.IsNullOrEmpty(_tblempleado.DocId) || string.IsNullOrEmpty(_tblempleado.Nombre))
+                {
+
+                    IsBusy = false;
+                    NotSaved = true;
+                    Msj = ResourceVm.MsjErrorEntidadVacia;
+                }
+                else
                 {
                     if (IsSaved = await _service.Post(_tblempleado))
                     {
                         IsBusy = false;
-                        Msj = $"Colaborador /a registrado con éxito";
+                        Msj = ResourceVm.MsjDatosGuardados;
+                        Limpiar();
                     }
                     else
                     {
-                        IsBusy = false;            
+                        IsBusy = false;
                         NotSaved = true;
                         Msj = WebService<Tblempleado>.ExceptionMsj;
                     }
                 }
-                else
-                {
-                    IsBusy = false;
-                    NotSaved = true;
-                    Msj = $"Entidad vacía, por favor verifique o contácte a soporte";
-                }             
             }
             catch (Exception ex)
             {
@@ -137,6 +152,36 @@ namespace Meteoro.ViewModels.ViewModel
                 Msj = $"{ex}";
             }
         }
+        private protected async Task ListarEmpleado()
+        {
+            IsBusy = true;
+            try
+            {
+                EmpleadosList = await _service.Get();
+                IsBusy = false;
+                if (!EmpleadosList.Any())
+                {
+                    Msj = "No hay datos para mostrar";
+                }               
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                NotSaved = true;
+                Msj = $"{ex}";
+            }
+        }
+        private void Limpiar()
+        {
+            Codigo = string.Empty;
+            DocId = string.Empty;
+            Nombre = string.Empty;
+            Pass = string.Empty;
+            Estado = false;
+            Periodo = false;
+            Area = default;
+            SecurePassword.Clear();            
+        }
         #endregion
 
         #region Properties
@@ -144,11 +189,13 @@ namespace Meteoro.ViewModels.ViewModel
 
         public string Codigo
         {
-            get 
-            {                
+            get
+            {
                 return codigo;
             }
-            set { codigo = value;
+            set
+            {
+                codigo = value;
                 NotifyPropertyChanged();
             }
         }
@@ -157,7 +204,9 @@ namespace Meteoro.ViewModels.ViewModel
         public string DocId
         {
             get { return docId; }
-            set { docId = value; 
+            set
+            {
+                docId = value;
                 NotifyPropertyChanged();
 
             }
@@ -167,7 +216,9 @@ namespace Meteoro.ViewModels.ViewModel
         public string Nombre
         {
             get { return nombre; }
-            set { nombre = value;
+            set
+            {
+                nombre = value;
                 NotifyPropertyChanged();
 
             }
@@ -177,10 +228,12 @@ namespace Meteoro.ViewModels.ViewModel
         public string Pass
         {
             private get
-            {               
-                return pass; 
+            {
+                return pass;
             }
-            set { pass = value;
+            set
+            {
+                pass = value;
                 NotifyPropertyChanged();
 
             }
@@ -190,7 +243,9 @@ namespace Meteoro.ViewModels.ViewModel
         public bool Estado
         {
             get { return estado; }
-            set { estado = value;
+            set
+            {
+                estado = value;
                 NotifyPropertyChanged();
 
             }
@@ -200,7 +255,9 @@ namespace Meteoro.ViewModels.ViewModel
         public bool Periodo
         {
             get { return periodo; }
-            set { periodo = value;
+            set
+            {
+                periodo = value;
                 NotifyPropertyChanged();
             }
         }
@@ -209,7 +266,9 @@ namespace Meteoro.ViewModels.ViewModel
         public int Area
         {
             get { return area; }
-            set { area = value; 
+            set
+            {
+                area = value;
                 NotifyPropertyChanged();
 
             }
@@ -220,7 +279,9 @@ namespace Meteoro.ViewModels.ViewModel
         public string Empresa
         {
             get { return empresa; }
-            set { empresa = value;
+            set
+            {
+                empresa = value;
                 NotifyPropertyChanged();
 
             }
@@ -230,7 +291,9 @@ namespace Meteoro.ViewModels.ViewModel
         public bool IsSaved
         {
             get { return isSaved; }
-            set { isSaved = value; 
+            set
+            {
+                isSaved = value;
                 NotifyPropertyChanged();
 
             }
@@ -263,7 +326,9 @@ namespace Meteoro.ViewModels.ViewModel
         public bool IsLogued
         {
             get { return isLogued; }
-            set { isLogued = value;
+            set
+            {
+                isLogued = value;
                 NotifyPropertyChanged();
             }
         }
@@ -283,18 +348,30 @@ namespace Meteoro.ViewModels.ViewModel
         public string Buscar
         {
             get { return buscar; }
-            set { buscar = value;
+            set
+            {
+                buscar = value;
                 NotifyPropertyChanged();
             }
         }
+        private bool filtro;
 
+        public bool Filtro
+        {
+            get { return filtro; }
+            set { filtro = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private bool isBusy;
 
         public bool IsBusy
         {
             get { return isBusy; }
-            set { isBusy = value;
+            set
+            {
+                isBusy = value;
                 NotifyPropertyChanged();
 
             }
@@ -304,7 +381,34 @@ namespace Meteoro.ViewModels.ViewModel
         public string Msj
         {
             get { return msj; }
-            set { msj = value;
+            set
+            {
+                msj = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private IEnumerable<EmpleadosListado> empleadosList;
+
+        public IEnumerable<EmpleadosListado> EmpleadosList
+        {
+            get { return empleadosList; }
+            set { empleadosList = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        private List<Tblarea> areasList;
+
+        public List<Tblarea> AreasList
+        {
+            get
+            {
+                return areasList;
+            }
+            set
+            {
+                areasList = value;
                 NotifyPropertyChanged();
             }
         }
@@ -321,12 +425,12 @@ namespace Meteoro.ViewModels.ViewModel
         private SecureString securePassword;
         public SecureString SecurePassword
         {
-            get 
-            { 
-                return securePassword; 
+            get
+            {
+                return securePassword;
             }
             set
-            { 
+            {
                 Pass = SecurityHelper.ToPlainString(SecurePassword);
                 securePassword = value;
                 NotifyPropertyChanged();

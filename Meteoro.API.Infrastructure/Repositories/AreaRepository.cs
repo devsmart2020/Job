@@ -4,6 +4,7 @@ using Meteoro.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Meteoro.API.Infrastructure.Repositories
@@ -33,7 +34,10 @@ namespace Meteoro.API.Infrastructure.Repositories
 
         public async Task<IEnumerable<Tblarea>> Get()
         {
-            return await _context.Tblarea.ToListAsync();
+            return await _context.Tblarea
+                .OrderBy(x => x.Nombre)
+                .ToListAsync();
+                
         }
 
         public async Task<Tblarea> GetById(dynamic id)
