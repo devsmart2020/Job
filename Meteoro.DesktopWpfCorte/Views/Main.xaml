@@ -101,6 +101,7 @@
                                         materialDesign:TextFieldAssist.UnderlineBrush="DarkGreen"
                                         CharacterCasing="Upper"
                                         FontSize="14"
+                                        IsEnabled="{Binding CodigoIsEnabled}"
                                         MaxLength="6"
                                         Style="{DynamicResource MaterialDesignTextBox}"
                                         Text="{Binding Codigo}" />
@@ -120,7 +121,7 @@
                                         Text="{Binding DocId}" />
 
                                     <TextBox
-                                        Width="200"
+                                        Width="310"
                                         Height="45"
                                         Margin="100,0,0,0"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
@@ -211,6 +212,7 @@
                                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                                         Background="DarkGreen"
                                         BorderBrush="DarkGreen"
+                                        Command="{Binding ActualizarEmpleadoCommand}"
                                         FontWeight="Light"
                                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                         ToolTip="Actualizar datos">
@@ -275,6 +277,30 @@
                                                 FontSize="14"
                                                 IsChecked="{Binding Filtro, Mode=OneWayToSource}"
                                                 Style="{DynamicResource MaterialDesignAccentRadioButton}" />
+                                            <Button
+                                                Width="55"
+                                                Height="35"
+                                                Margin="40,0,0,0"
+                                                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                                Background="DarkGreen"
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding LimpiarCommand}"
+                                                FontWeight="Light"
+                                                Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                ToolTip="Limpiar">
+                                                <materialDesign:PackIcon
+                                                    Width="22"
+                                                    Height="22"
+                                                    Foreground="WhiteSmoke"
+                                                    Kind="Eraser" />
+                                            </Button>
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                FontSize="13"
+                                                Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                                Text="Limpiar" />
+
                                         </StackPanel>
                                     </GroupBox>
 
@@ -287,19 +313,20 @@
                                         IsBusy="{Binding IsBusy}" />
 
                                 </StackPanel>
+
+                                <!--  DATAGRID  -->
                                 <StackPanel>
                                     <DataGrid
                                         x:Name="dgvEmpleados"
                                         Height="225"
-                                        Margin="0,-20"
+                                        Margin="0,0,0,0"
                                         materialDesign:DataGridAssist.ColumnHeaderPadding="10"
                                         FontSize="12"
                                         IsReadOnly="True"
-                                        ItemsSource="{Binding EmpleadosList}"
+                                        ItemsSource="{Binding EmpleadosList, Mode=TwoWay}"
                                         RowStyle="{DynamicResource MaterialDesignDataGridRow}"
+                                        SelectedItem="{Binding EmpleadosEntity}"
                                         Style="{StaticResource MaterialDesignDataGrid}" />
-
-
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

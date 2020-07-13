@@ -23,9 +23,10 @@ namespace Meteoro.Services.Services
             return await WebService<EmpleadosListado>.GetAsync(RutaApi);
         }
 
-        public Task<Tblempleado> GetById(string url)
+        public async Task<Tblempleado> GetById(Tblempleado entity)
         {
-            throw new NotImplementedException();
+            WebService<Tblempleado>.InitializeClient();
+            return await WebService<Tblempleado>.GetByIdAsync(entity, $"{RutaApi}GetById");
         }
 
         public async Task<Tblempleado> Login(Tblempleado entity) 
@@ -46,9 +47,10 @@ namespace Meteoro.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> Put(Tblempleado entity)
+        public async Task<bool> Put(Tblempleado entity)
         {
-            throw new NotImplementedException();
+            WebService<Tblempleado>.InitializeClient();
+            return await WebService<Tblempleado>.PutAsync(entity, $"{RutaApi}Actualizar");
         }
     }
 }

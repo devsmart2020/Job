@@ -72,17 +72,17 @@ namespace Meteoro.Services.Data
             }
         }
 
-        public static async Task<T> GetByIdAsync(string url)
+        public static async Task<T> GetByIdAsync(T entity, string url)
         {
             try
             {
-                using (HttpResponseMessage response = await _client.GetAsync(url))
+                using (HttpResponseMessage response = await _client.PostAsJsonAsync(url, entity))
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        T entity = default;
-                        entity = await response.Content.ReadAsAsync<T>();
-                        return entity;
+                        T entityModel = default;
+                        entityModel = await response.Content.ReadAsAsync<T>();
+                        return entityModel;
                     }
                     else
                     {
@@ -102,7 +102,7 @@ namespace Meteoro.Services.Data
         {
             try
             {
-                using (HttpResponseMessage response = await _client.PostAsJsonAsync(url, entity))
+                using (HttpResponseMessage response = await _client.PostAsJsonAsync(url,entity))
                 {
                     response.EnsureSuccessStatusCode();
                     if (response.StatusCode == HttpStatusCode.Created)
@@ -126,7 +126,28 @@ namespace Meteoro.Services.Data
 
         public static async Task<bool> PutAsync(T entity, string url)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (HttpResponseMessage response = await _client.PostAsJsonAsync(url, entity))
+                {
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        ExceptionMsj = response.ReasonPhrase.ToString();
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionMsj = ex.Message.ToString();
+                return false;
+            }
         }
 
         public static async Task<T> LoginAsync(T entity, string url)

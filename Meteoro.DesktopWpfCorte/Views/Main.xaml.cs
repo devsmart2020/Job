@@ -43,5 +43,6 @@ namespace Meteoro.DesktopWpfCorte.Views
                 _empleadoVm.SecurePassword = ((dynamic)DataContext).SecurePassword;
             }
         }
+       
     }
 }

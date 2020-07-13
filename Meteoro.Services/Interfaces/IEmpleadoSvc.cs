@@ -8,7 +8,7 @@ namespace Meteoro.Services.Interfaces
     public interface IEmpleadoSvc
     {
         Task<IEnumerable<EmpleadosListado>> Get();
-        Task<Tblempleado> GetById(string url);
+        Task<Tblempleado> GetById(Tblempleado entity);
         Task<bool> Post(Tblempleado entity);
         Task<bool> PostList(List<Tblempleado> entities);
         Task<bool> Put(Tblempleado entity);

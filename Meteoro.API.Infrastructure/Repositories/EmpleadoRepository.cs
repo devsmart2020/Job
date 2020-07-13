@@ -50,9 +50,11 @@ namespace Meteoro.API.Infrastructure.Repositories
 
         }
 
-        public async Task<Tblempleado> GetById(dynamic id)
+        public async Task<Tblempleado> GetById(Tblempleado entity)
         {
-            return await _context.Tblempleado.FindAsync(id);
+            return await _context.Tblempleado
+                .Where(x => x.Codigo.Equals(entity.Codigo) || x.DocId.Equals(entity.DocId))
+                .FirstOrDefaultAsync();           
         }
 
         public async Task<Tblempleado> Login(Tblempleado entity)

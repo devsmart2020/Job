@@ -10,7 +10,7 @@ namespace Meteoro.API.Core.Interfaces
         Task<int> Post(Tblempleado entity);
         Task<int> Put(Tblempleado entity);
         Task<IEnumerable<EmpleadosListado>> Get();
-        Task<Tblempleado> GetById(dynamic id);
+        Task<Tblempleado> GetById(Tblempleado entity);
         Task<int> Delete(dynamic id);
         Task<Tblempleado> Login(Tblempleado entity); 
         

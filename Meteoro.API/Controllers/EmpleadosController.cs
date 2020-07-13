@@ -54,7 +54,7 @@ namespace Meteoro.API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPost("Actualizar")]
         public async Task<ActionResult<bool>> Put(Tblempleado entity)
         {
             if (entity != null)
@@ -76,11 +76,11 @@ namespace Meteoro.API.Controllers
         }
 
         [HttpPost("GetById")]
-        public async Task<ActionResult<Tblempleado>> GetById(dynamic id)
+        public async Task<ActionResult<Tblempleado>> GetById(Tblempleado entity)
         {
-            if (id != null)
+            if (!string.IsNullOrEmpty(entity.Codigo) || !string.IsNullOrEmpty(entity.DocId))
             {
-                Tblempleado query = await _repository.GetById(id);
+                Tblempleado query = await _repository.GetById(entity);
                 if (query != null)
                 {
                     return Ok(query);
