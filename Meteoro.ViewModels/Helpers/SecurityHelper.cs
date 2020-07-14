@@ -16,7 +16,7 @@ namespace Meteoro.ViewModels.Helpers
 
             }
             return secStr;
-        }
+        }      
 
         //Convertir SecureString a TextoPlano
         public static String ToPlainString(this SecureString secureStr)
@@ -24,5 +24,14 @@ namespace Meteoro.ViewModels.Helpers
             String plainStr = new System.Net.NetworkCredential(string.Empty, secureStr).Password;
             return plainStr;
         }
+
+
+        public static SecureString Delete(this String plainStr)
+        {
+            var secStr = new SecureString();
+            secStr.Clear();
+            return secStr;
+        }
+
     }
 }

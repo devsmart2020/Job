@@ -4,6 +4,7 @@ using Meteoro.Services.Data;
 using Meteoro.Services.Services;
 using Meteoro.ViewModels.BaseViewModel;
 using Meteoro.ViewModels.Helpers;
+using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,6 @@ using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-
 namespace Meteoro.ViewModels.ViewModel
 {
     public class EmpleadoVm : BaseViewModel.BaseViewModel, INotifyPropertyChanged
@@ -20,7 +20,7 @@ namespace Meteoro.ViewModels.ViewModel
         #region Members Variables
         private EmpleadoSvc _service;
         private Tblempleado _tblempleado;
-        private AreaVm _areaVm;
+        private AreaVm _areaVm;       
         #endregion
 
         #region Constructor
@@ -32,6 +32,7 @@ namespace Meteoro.ViewModels.ViewModel
             CrearEmpleadoCommand = new Command(CrearEmpleadoExecute, CanExecuteMethod);
             LimpiarCommand = new Command(LimpiarExecute, CanExecuteMethod);
             ActualizarEmpleadoCommand = new Command(ActualizarEmpleadoexecute, CanExecuteMethod);
+            ListarEmpleadoCommand = new Command(ListarEmpleadoExecute, CanExecuteMethod);
             Task.Run(async () =>
             {
                 AreasList = await _areaVm.ListarAreasCmd();
@@ -65,6 +66,23 @@ namespace Meteoro.ViewModels.ViewModel
         private async void ActualizarEmpleadoexecute(object parameter)
         {
             await ActualizarEmpleado();
+        }
+        private async void ListarEmpleadoExecute(object parameter)
+        {
+            await ListarEmpleado();
+        }
+        public void BuscarEmpleado(string text)
+        {            
+            if (!string.IsNullOrEmpty(text))
+            {
+                EmpleadosEntity = EmpleadosList
+                    .Where(x => x.Nombre.Contains(text) || x.Documento.Contains(text) || x.Codigo.Contains(text))
+                    .FirstOrDefault();
+            }
+            else
+            {
+                LimpiarCommand.Execute(null);
+            }
         }
 
         private protected async Task Login()
@@ -143,6 +161,7 @@ namespace Meteoro.ViewModels.ViewModel
                 {
                     if (IsSaved = await _service.Post(_tblempleado))
                     {
+                        await ListarEmpleado();
                         IsBusy = false;
                         Msj = ResourceVm.MsjDatosGuardados;                       
                         Limpiar();
@@ -180,39 +199,44 @@ namespace Meteoro.ViewModels.ViewModel
                 NotSaved = true;
                 Msj = $"{ex}";
             }
-        }
+        }      
         private protected async Task ObtenerDatosEmpleado()
         {
             IsBusy = true;
             try
             {
-                Tblempleado empleado = new Tblempleado()
+                if (EmpleadosEntity != null)
                 {
-                    Codigo = EmpleadosEntity.Codigo,
-                    DocId = EmpleadosEntity.Documento,
-                };
-                if (!string.IsNullOrEmpty(empleado.Codigo) || !string.IsNullOrEmpty(empleado.DocId))
-                {
-                    Tblempleado = await _service.GetById(empleado);
-                    Codigo = Tblempleado.Codigo;
-                    DocId = Tblempleado.DocId;
-                    Nombre = Tblempleado.Nombre;
-                    Pass = Tblempleado.Pass;
-                    Estado = Tblempleado.Estado;
-                    Periodo = Tblempleado.Periodo;
-                    Area = Area;
-                    Empresa = Tblempleado.Empresa;
-                    CodigoIsEnabled = false;
-                    IsBusy = false;
+                    Tblempleado empleado = new Tblempleado()
+                    {
+                        Codigo = EmpleadosEntity.Codigo,
+                        DocId = EmpleadosEntity.Documento,
+                    };
+                    if (!string.IsNullOrEmpty(empleado.Codigo) || !string.IsNullOrEmpty(empleado.DocId))
+                    {
+                        Tblempleado = await _service.GetById(empleado);
+                        Codigo = Tblempleado.Codigo;
+                        DocId = Tblempleado.DocId;
+                        Nombre = Tblempleado.Nombre;
+                        Pass = Tblempleado.Pass;
+                        Estado = Tblempleado.Estado;
+                        Periodo = Tblempleado.Periodo;
+                        Area = Area;
+                        Empresa = Tblempleado.Empresa;
+                        CodigoIsEnabled = false;
+                        IsBusy = false;
+                    }
+                    else
+                    {
+                        CodigoIsEnabled = true;
+                        IsBusy = false;
+                        NotSaved = true;
+                        Msj = "No se pueden enlazar los datos (Binding Vm)";
+                    }
                 }
-                else
-                {
-                    CodigoIsEnabled = true;  
-                    IsBusy = false;
-                    NotSaved = true;
-                    Msj = "No se pueden enlazar los datos (Binding Vm)";
-                }
-               
+
+
+
             }
             catch (Exception ex)
             {
@@ -240,14 +264,16 @@ namespace Meteoro.ViewModels.ViewModel
                 if (string.IsNullOrEmpty(_tblempleado.Codigo) || string.IsNullOrEmpty(_tblempleado.DocId) || string.IsNullOrEmpty(_tblempleado.Nombre))
                 {
                     IsBusy = false;
-                    NotSaved = true;
+                    NotSaved = true;                    
                     Msj = ResourceVm.MsjErrorEntidadVacia;
                 }
                 else
                 {
                     if (IsSaved = await _service.Put(_tblempleado))
                     {
+                        await ListarEmpleado();
                         IsBusy = false;
+                        IsUpdated = true;
                         Msj = ResourceVm.MsjDatosActualizados;
                         Limpiar();
                     }
@@ -276,7 +302,7 @@ namespace Meteoro.ViewModels.ViewModel
             Estado = false;
             Periodo = false;
             Area = default;
-            //SecurePassword.Clear();
+            SecurePassword = null;
             CodigoIsEnabled = true;
         }
         #endregion
@@ -444,24 +470,17 @@ namespace Meteoro.ViewModels.ViewModel
 
         public string Buscar
         {
-            get { return buscar; }
+            get 
+            {                            
+                return buscar; 
+            }
             set
-            {
+            {                
                 buscar = value;
                 NotifyPropertyChanged();
+                
             }
-        }
-        private bool filtro;
-
-        public bool Filtro
-        {
-            get { return filtro; }
-            set
-            {
-                filtro = value;
-                NotifyPropertyChanged();
-            }
-        }
+        }     
 
         private bool isBusy;
 
@@ -473,6 +492,24 @@ namespace Meteoro.ViewModels.ViewModel
                 isBusy = value;
                 NotifyPropertyChanged();
 
+            }
+        }
+
+        private bool isUpdated;
+        public bool IsUpdated
+        {
+            get 
+            { 
+                return isUpdated; 
+            }
+            set 
+            {
+                if (isUpdated != value)
+                {
+                    ListarEmpleado().ConfigureAwait(true);
+                }
+                isUpdated = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -490,9 +527,12 @@ namespace Meteoro.ViewModels.ViewModel
 
         public IEnumerable<EmpleadosListado> EmpleadosList
         {
-            get { return empleadosList; }
+            get
+            {            
+                return empleadosList;
+            }
             set
-            {
+            {                
                 empleadosList = value;
                 NotifyPropertyChanged();
             }
@@ -506,11 +546,11 @@ namespace Meteoro.ViewModels.ViewModel
             { return empleadosEntity; }
             set
             {
-                empleadosEntity = value;
                 Task.Run(async () =>
                 {
                     await ObtenerDatosEmpleado();
                 });
+                empleadosEntity = value;                
                 NotifyPropertyChanged();
 
             }
@@ -554,6 +594,7 @@ namespace Meteoro.ViewModels.ViewModel
             }
         }
 
+       
 
 
         #endregion
@@ -561,6 +602,7 @@ namespace Meteoro.ViewModels.ViewModel
         #region Commands
         public ICommand LoginCommand { get; set; }
         public ICommand CrearEmpleadoCommand { get; set; }
+        public ICommand ListarEmpleadoCommand { get; set; }
         public ICommand LimpiarCommand { get; set; }
         public ICommand ActualizarEmpleadoCommand { get; set; }
         #endregion

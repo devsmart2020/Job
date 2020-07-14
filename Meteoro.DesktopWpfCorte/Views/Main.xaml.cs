@@ -1,4 +1,5 @@
 ﻿using Meteoro.ViewModels.ViewModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,8 +42,13 @@ namespace Meteoro.DesktopWpfCorte.Views
             {
                 ((dynamic)DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
                 _empleadoVm.SecurePassword = ((dynamic)DataContext).SecurePassword;
-            }
+            }            
         }
-       
+
+        private void txtBuscar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _empleadoVm.BuscarEmpleado(txtBuscar.Text.Trim());
+
+        }
     }
 }

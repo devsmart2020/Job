@@ -1,6 +1,7 @@
 ﻿using Meteoro.Entities.Entities;
 using Meteoro.Entities.Helpers;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Meteoro.Services.Interfaces

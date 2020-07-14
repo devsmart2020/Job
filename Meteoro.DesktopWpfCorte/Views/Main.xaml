@@ -32,6 +32,9 @@
     </Window.DataContext>
 
 
+
+
+
     <Grid>
         <Grid
             Height="40"
@@ -50,7 +53,8 @@
                 VerticalAlignment="Center"
                 Background="{x:Null}"
                 BorderBrush="{x:Null}"
-                Click="btnClose_Click">
+                Click="btnClose_Click"
+                ToolTip="Salir">
                 <materialDesign:PackIcon
                     Width="25"
                     Height="25"
@@ -220,7 +224,7 @@
                                             Width="24"
                                             Height="24"
                                             Foreground="WhiteSmoke"
-                                            Kind="FileDocumentEdit" />
+                                            Kind="Update" />
                                     </Button>
 
                                     <GroupBox
@@ -244,6 +248,7 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox
+                                        x:Name="txtBuscar"
                                         Width="400"
                                         Height="40"
                                         Margin="0,30"
@@ -253,7 +258,7 @@
                                         FontSize="15"
                                         MaxLength="40"
                                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                                        Text="{Binding Buscar}" />
+                                        TextChanged="txtBuscar_TextChanged" />
                                     <GroupBox
                                         Margin="20,30,0,0"
                                         HorizontalAlignment="Center"
@@ -452,7 +457,7 @@
 
                     </Grid>
                 </TabItem>
-                <!--#endregion-->
+                <!--#endregion COLABORADORES-->
 
                 <!--#region COSECHA-->
                 <TabItem Header="COSECHA">
@@ -463,7 +468,8 @@
                             Text="Hello World!" />
                     </Grid>
                 </TabItem>
-                <!--#endregion-->
+                <!--#endregion COSECHA-->
+
 
                 <!--#region REPORTES-->
                 <TabItem Header="REPORTES">
