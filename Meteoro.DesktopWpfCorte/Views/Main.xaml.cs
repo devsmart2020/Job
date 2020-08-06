@@ -1,5 +1,4 @@
-﻿using Meteoro.ViewModels.ViewModel;
-using System.Linq;
+﻿using Meteoro.ViewModels.ViewModel.Corte;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +18,7 @@ namespace Meteoro.DesktopWpfCorte.Views
 
         public Main()
         {
-            InitializeComponent();
+            InitializeComponent();           
             this.DataContext = _empleadoVm;
         }
 
@@ -50,5 +49,6 @@ namespace Meteoro.DesktopWpfCorte.Views
             _empleadoVm.BuscarEmpleado(txtBuscar.Text.Trim());
 
         }
+       
     }
 }

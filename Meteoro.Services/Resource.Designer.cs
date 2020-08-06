@@ -79,6 +79,15 @@ namespace Meteoro.Services {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a http://10.10.44.132:64099/.
+        /// </summary>
+        internal static string BaseUrlCorte {
+            get {
+                return ResourceManager.GetString("BaseUrlCorte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a api/Cosechas.
         /// </summary>
         internal static string CrearCosechaURL {

@@ -7,7 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel;assembly=Meteoro.ViewModels"
+    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel.Corte;assembly=Meteoro.ViewModels"
     Title="Main"
     Width="1000"
     Height="720"
@@ -26,13 +26,9 @@
     WindowStyle="None"
     mc:Ignorable="d">
 
-
     <Window.DataContext>
-        <viewmodel:EmpleadoVm />
+        <viewmodel:MainDataContext />
     </Window.DataContext>
-
-
-
 
 
     <Grid>
@@ -63,13 +59,9 @@
                     ToolTip="Salir" />
             </Button>
         </Grid>
+        <!--  GRID TABABLZ  -->
         <Grid Margin="0,60,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="83*" />
-                <ColumnDefinition Width="117*" />
-                <ColumnDefinition Width="440*" />
-            </Grid.ColumnDefinitions>
-            <dragablz:TabablzControl Grid.ColumnSpan="3">
+            <dragablz:TabablzControl>
                 <dragablz:TabablzControl.InterTabController>
                     <dragablz:InterTabController />
                 </dragablz:TabablzControl.InterTabController>
@@ -96,9 +88,11 @@
                         <Grid Grid.Row="1">
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Margin="30,0" Orientation="Horizontal">
+
                                     <TextBox
                                         Width="200"
-                                        Height="45"
+                                        Height="38"
+                                        VerticalContentAlignment="Top"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
                                         materialDesign:HintAssist.Hint="Código"
                                         materialDesign:HintAssist.IsFloating="True"
@@ -107,13 +101,14 @@
                                         FontSize="14"
                                         IsEnabled="{Binding CodigoIsEnabled}"
                                         MaxLength="6"
-                                        Style="{DynamicResource MaterialDesignTextBox}"
+                                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                                         Text="{Binding Codigo}" />
 
                                     <TextBox
                                         Width="200"
-                                        Height="45"
+                                        Height="38"
                                         Margin="100,0,0,0"
+                                        VerticalContentAlignment="Top"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
                                         materialDesign:HintAssist.Hint="Documento"
                                         materialDesign:HintAssist.IsFloating="True"
@@ -121,13 +116,14 @@
                                         CharacterCasing="Upper"
                                         FontSize="14"
                                         MaxLength="15"
-                                        Style="{DynamicResource MaterialDesignTextBox}"
+                                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                                         Text="{Binding DocId}" />
 
                                     <TextBox
                                         Width="310"
-                                        Height="45"
+                                        Height="38"
                                         Margin="100,0,0,0"
+                                        VerticalContentAlignment="Top"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
                                         materialDesign:HintAssist.Hint="Apellidos y Nombres"
                                         materialDesign:HintAssist.IsFloating="True"
@@ -135,7 +131,7 @@
                                         CharacterCasing="Upper"
                                         FontSize="14"
                                         MaxLength="70"
-                                        Style="{DynamicResource MaterialDesignTextBox}"
+                                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                                         Text="{Binding Nombre}" />
                                 </StackPanel>
 
@@ -144,7 +140,7 @@
                                     <PasswordBox
                                         x:Name="txtPass"
                                         Width="200"
-                                        Height="40"
+                                        Height="38"
                                         materialDesign:HintAssist.Foreground="DarkGreen"
                                         materialDesign:HintAssist.Hint="Contraseña"
                                         materialDesign:HintAssist.IsFloating="True"
@@ -152,20 +148,21 @@
                                         FontSize="14"
                                         MaxLength="20"
                                         PasswordChanged="txtPass_PasswordChanged"
-                                        Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" />
+                                        Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}" />
 
                                     <ComboBox
                                         Width="200"
-                                        Height="40"
+                                        Height="38"
                                         Margin="100,0,0,0"
+                                        VerticalContentAlignment="Center"
                                         materialDesign:HintAssist.Hint="Área"
-                                        Background="WhiteSmoke"
+                                        Background="LightGray"
                                         DisplayMemberPath="Nombre"
                                         FontSize="14"
                                         ItemsSource="{Binding AreasList}"
                                         SelectedValue="{Binding Area}"
                                         SelectedValuePath="Codigo"
-                                        Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                                        Style="{StaticResource MaterialDesignDataGridComboBox}" />
 
                                     <GroupBox
                                         Margin="100,0"
@@ -312,7 +309,7 @@
                                     <!--  IsBusy  -->
                                     <syncfusion:SfBusyIndicator
                                         Margin="20,0"
-                                        AnimationType="Ripple"
+                                        AnimationType="Clock"
                                         FontSize="10"
                                         Foreground="DarkGreen"
                                         IsBusy="{Binding IsBusy}" />
@@ -453,6 +450,7 @@
                                 </Grid>
                             </materialDesign:DialogHost.DialogContent>
                         </materialDesign:DialogHost>
+                        <!--#endregion DIALOGHOST-->
                         <!--#endregion-->
 
                     </Grid>
@@ -460,13 +458,386 @@
                 <!--#endregion COLABORADORES-->
 
                 <!--#region COSECHA-->
-                <TabItem Header="COSECHA">
+                <TabItem Header="COSECHA" Style="{DynamicResource MaterialDesignHeaderedContentControl}">
                     <Grid>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="Hello World!" />
+                        <Grid.DataContext>
+                            <viewmodel:AseguradorEmpleadoVm />
+                        </Grid.DataContext>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="780" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="440" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <DataGrid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Width="770"
+                            Margin="10,10,0,0"
+                            materialDesign:DataGridAssist.ColumnHeaderPadding="10"
+                            FontSize="12"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding Tblaseguradorempleados}"
+                            RowStyle="{DynamicResource MaterialDesignDataGridRow}"
+                            Style="{StaticResource MaterialDesignDataGrid}" />
+
+                        <StackPanel
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Margin="10,20"
+                            HorizontalAlignment="Right"
+                            Orientation="Vertical">
+                            <GroupBox
+                                Width="190"
+                                Height="80"
+                                FontSize="16"
+                                Header="Estado"
+                                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    Text="Asignados" />
+                            </GroupBox>
+
+                            <GroupBox
+                                Width="190"
+                                Height="80"
+                                Margin="0,15"
+                                FontSize="16"
+                                Header="N° Cosechadores"
+                                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    Text="{Binding NumCosechadores}" />
+                            </GroupBox>
+
+                            <GroupBox
+                                Width="190"
+                                Height="80"
+                                FontSize="16"
+                                Header="N° Aseguradores"
+                                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    Text="{Binding NumAseguradores}" />
+                            </GroupBox>
+
+                            <GroupBox
+                                Width="190"
+                                Height="80"
+                                Margin="0,15"
+                                FontSize="16"
+                                Header="Por Asegurar Hoy"
+                                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="Red"
+                                    Text="{Binding NumAseguradores}" />
+                            </GroupBox>
+
+                            <GroupBox
+                                Width="190"
+                                Height="80"
+                                FontSize="16"
+                                Header="Asegurados Hoy"
+                                Style="{DynamicResource MaterialDesignCardGroupBox}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="DarkGreen"
+                                    Text="68" />
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="0,50,0,0"
+                            Orientation="Horizontal">
+
+                            <Grid VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Width="80"
+                                    Height="45"
+                                    Margin="50,0"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    Background="DarkGreen"
+                                    BorderBrush="DarkGreen"
+                                    Command="{Binding AsignarCosechadoresCommand}"
+                                    FontWeight="Light"
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                    ToolTip="Asignar">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        Foreground="WhiteSmoke"
+                                        Kind="ClipboardList" />
+                                </Button>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                    Text="Asignar" />
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="80"
+                                    Height="45"
+                                    Margin="50,0"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    Background="DarkGreen"
+                                    BorderBrush="DarkGreen"
+                                    Command="{Binding ActualizarEmpleadoCommand}"
+                                    FontWeight="Light"
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                    ToolTip="Re-Asignar">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        Foreground="WhiteSmoke"
+                                        Kind="Edit" />
+                                </Button>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                    Text="Re-Asignar" />
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Width="80"
+                                    Height="45"
+                                    Margin="50,0"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    Background="DarkGreen"
+                                    BorderBrush="DarkGreen"
+                                    Command="{Binding ActualizarEmpleadoCommand}"
+                                    FontWeight="Light"
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                    ToolTip="Detalles">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        Foreground="WhiteSmoke"
+                                        Kind="PersonDetails" />
+                                </Button>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                    Text="Detalles" />
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    Width="80"
+                                    Height="45"
+                                    Margin="50,0"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    Background="DarkGreen"
+                                    BorderBrush="DarkGreen"
+                                    Command="{Binding ActualizarEmpleadoCommand}"
+                                    FontWeight="Light"
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                    ToolTip="Otros">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        Foreground="WhiteSmoke"
+                                        Kind="HamburgerMenu" />
+                                </Button>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                    Text="Otros" />
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="4"
+                                    Width="80"
+                                    Height="45"
+                                    Margin="50,0"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    Background="DarkGreen"
+                                    BorderBrush="DarkGreen"
+                                    Command="{Binding ListarCosechadoresAsignadosCommand}"
+                                    FontWeight="Light"
+                                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                    ToolTip="Actualizar">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        Foreground="WhiteSmoke"
+                                        Kind="Refresh" />
+                                </Button>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="4"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                    Text="Actualizar" />
+
+                                <syncfusion:SfBusyIndicator
+                                    Grid.Row="0"
+                                    Grid.Column="5"
+                                    AnimationType="Clock"
+                                    Foreground="DarkGreen"
+                                    IsBusy="{Binding IsBusy}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!--  DialogHosts  -->
+
+                        <materialDesign:DialogHost Margin="0,150,0,0" IsOpen="{Binding IsAsigned}">
+
+                            <materialDesign:DialogHost.DialogContent>
+
+                                <Grid Width="400" Height="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <materialDesign:PackIcon
+                                        Grid.RowSpan="3"
+                                        Grid.Column="0"
+                                        Width="70"
+                                        Height="70"
+                                        VerticalAlignment="Center"
+                                        Foreground="DarkGreen"
+                                        Kind="Check" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="18"
+                                        Foreground="Gray"
+                                        Text="{Binding Msj, Mode=TwoWay}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Width="130"
+                                        Height="35"
+                                        Margin="0,0,70,0"
+                                        HorizontalAlignment="Center"
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                        Background="DarkGreen"
+                                        BorderBrush="DarkGreen"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        FontWeight="Light"
+                                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                        ToolTip="Cerrar">
+                                        <materialDesign:PackIcon
+                                            Width="24"
+                                            Height="24"
+                                            Foreground="WhiteSmoke"
+                                            Kind="ExitRun" />
+                                    </Button>
+                                </Grid>
+                            </materialDesign:DialogHost.DialogContent>
+                        </materialDesign:DialogHost>
+
+                        <materialDesign:DialogHost Margin="0,150,0,0" IsOpen="{Binding IsError}">
+
+                            <materialDesign:DialogHost.DialogContent>
+
+                                <Grid Width="400" Height="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <materialDesign:PackIcon
+                                        Grid.RowSpan="3"
+                                        Grid.Column="0"
+                                        Width="70"
+                                        Height="70"
+                                        VerticalAlignment="Center"
+                                        Foreground="Red"
+                                        Kind="Error" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Foreground="Gray"
+                                        Text="{Binding Msj, Mode=TwoWay}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                    <Button
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Width="130"
+                                        Height="35"
+                                        Margin="0,0,70,0"
+                                        HorizontalAlignment="Center"
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                        Background="DarkGreen"
+                                        BorderBrush="DarkGreen"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        FontWeight="Light"
+                                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                        ToolTip="Cerrar">
+                                        <materialDesign:PackIcon
+                                            Width="24"
+                                            Height="24"
+                                            Foreground="WhiteSmoke"
+                                            Kind="ExitRun" />
+                                    </Button>
+                                </Grid>
+                            </materialDesign:DialogHost.DialogContent>
+                        </materialDesign:DialogHost>
+                        <!--  End DialogHosts  -->
                     </Grid>
+
                 </TabItem>
                 <!--#endregion COSECHA-->
 

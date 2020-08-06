@@ -7,9 +7,6 @@
     xmlns:system="clr-namespace:System;assembly=System.Runtime">
     <Application.Resources>
         <ResourceDictionary>
-
-
-
             <ResourceDictionary.MergedDictionaries>
 
                 <materialDesign:BundledTheme

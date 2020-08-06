@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Corte.App.Views.Views.Corte"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+    xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+    xmlns:controls="clr-namespace:Corte.App.Controls"
+    xmlns:converter="clr-namespace:Corte.App.Converters"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:listview="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel.Corte;assembly=Meteoro.ViewModels"
+    BackgroundColor="{DynamicResource Gray-100}"
+    NavigationPage.HasNavigationBar="False"
+    mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <viewmodel:CorteVm />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:BooleanToColorConverter x:Key="ColorConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ControlTemplate>
+        <ControlTemplate>
+            <StackLayout
+                Padding="0,-10"
+                BackgroundColor="{DynamicResource Gray-White}"
+                Spacing="2">
+                <!--  Title  -->
+                <Label
+                    Margin="0,25,0,0"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    HorizontalOptions="Center"
+                    Text="METEORO CORTE"
+                    TextColor="{DynamicResource Gray-900}" />
+                <BoxView BackgroundColor="{DynamicResource Gray-200}" HeightRequest="1" />
+                <ContentPresenter />
+            </StackLayout>
+        </ControlTemplate>
+    </ContentPage.ControlTemplate>
+
+    <ScrollView>
+        <StackLayout Padding="0,-5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+
+                <!--  Cortador  -->
+                <StackLayout
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="10,10,0,20"
+                    Orientation="Horizontal">
+                    <Label
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="Cortador: "
+                        TextColor="{DynamicResource Gray-800}"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        x:Name="lblCosechador"
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="{Binding Nombre, Mode=TwoWay}"
+                        TextColor="LightCoral"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        x:Name="lblCodEmpleado"
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="10"
+                        Text="{Binding Empleado, Mode=TwoWay}"
+                        VerticalTextAlignment="Center" />
+                </StackLayout>
+
+                <!--  Categoria  -->
+                <border:SfBorder
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="10,0,0,0"
+                    Style="{StaticResource BusinessFormBorderStyle}">
+                    <combobox:SfComboBox
+                        x:Name="comboBox"
+                        ComboBoxSource="{Binding CargarModalidadCommand}"
+                        DataSource="{Binding ListaModalidad}"
+                        DisplayMemberPath="Nombre"
+                        HeightRequest="43"
+                        MultiSelectMode="None"
+                        SelectedItem="{Binding CodModalidad}"
+                        Style="{StaticResource ComboBoxStyle}"
+                        Text="Seleccione categoría..." />
+                </border:SfBorder>
+
+
+                <!--  Deshoje, Daño mecanico  -->
+                <buttons:SfCheckBox
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Deshoje, Mode=TwoWay}"
+                    Text="Deshoje" />
+                <buttons:SfCheckBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding DañoMecanico, Mode=TwoWay}"
+                    Text="Daño mecánico"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  NumTallos, F Tallos  -->
+                <buttons:SfCheckBox
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding NumTallo, Mode=TwoWay}"
+                    Text="Num Tallos"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding FTallo, Mode=TwoWay}"
+                    Text="F Tallos"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  Cauchos, Longitud  -->
+                <buttons:SfCheckBox
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Cauchos, Mode=TwoWay}"
+                    Text="Cauchos"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Longitud, Mode=TwoWay}"
+                    Text="Longitud"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  Base, Alineados  -->
+                <buttons:SfCheckBox
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding BaseC, Mode=TwoWay}"
+                    Text="Base"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Alineado, Mode=TwoWay}"
+                    Text="Alineados"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  Follaje, Fitosanidad  -->
+                <buttons:SfCheckBox
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Follaje, Mode=TwoWay}"
+                    Text="Follaje"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Fitosanidad, Mode=TwoWay}"
+                    Text="Fitosanidad"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  Presentación, Apertura  -->
+                <buttons:SfCheckBox
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Presentacion, Mode=TwoWay}"
+                    Text="Presentación"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Apertura, Mode=TwoWay}"
+                    Text="Apertura"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <!--  Ramall, Mezcla  -->
+                <buttons:SfCheckBox
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Ramall, Mode=TwoWay}"
+                    Text="Ramall"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+                <buttons:SfCheckBox
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    BorderWidth="2"
+                    CheckedColor="{StaticResource GradientStartColor}"
+                    CornerRadius="4"
+                    FontFamily="{StaticResource Montserrat-Medium}"
+                    FontSize="16"
+                    IsChecked="{Binding Mezcla, Mode=TwoWay}"
+                    Text="Mezcla"
+                    TextColor="{DynamicResource Gray-800}"
+                    Visual="Material" />
+
+                <StackLayout
+                    Grid.Row="11"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="{DynamicResource Gray-White}"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal"
+                    Spacing="2">
+                    <Label
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="Fecha: "
+                        TextColor="{DynamicResource Gray-800}" />
+                    <Label
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="{Binding Fecha}"
+                        TextColor="{DynamicResource Gray-800}" />
+                    <Label
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="Semana: "
+                        TextColor="{DynamicResource Gray-800}" />
+                    <Label
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        FontSize="16"
+                        Text="{Binding Semana}"
+                        TextColor="{DynamicResource Gray-800}" />
+                </StackLayout>
+
+
+                <!--  Guardar  -->
+                <Button
+                    Grid.Row="12"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="{DynamicResource LightGreen}"
+                    Command="{Binding CrearCorteCommand}"
+                    CornerRadius="20"
+                    FontFamily="{StaticResource Montserrat-SemiBold}"
+                    FontSize="Micro"
+                    Text="Asegurar"
+                    TextColor="White">
+                    <Button.BindingContext>
+                        <viewmodel:CorteVm />
+                    </Button.BindingContext>
+                </Button>
+
+                <!--  Search Cosechador  -->
+                <StackLayout
+                    Grid.Row="13"
+                    Grid.ColumnSpan="2"
+                    Orientation="Vertical">
+                    <BoxView BackgroundColor="{DynamicResource Gray-300}" HeightRequest="3" />
+                </StackLayout>
+
+                <!--  Lista Cosechadores  -->
+                <StackLayout Grid.Row="14" Grid.ColumnSpan="2">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Pendientes: " />
+                        <Label x:Name="lblCosechadoresPendientes" Text="{Binding CosechadoresPendientes}" />
+                    </StackLayout>
+                    <RefreshView
+                        Command="{Binding CargarCosechadoresCommand}"
+                        HeightRequest="390"
+                        IsRefreshing="{Binding IsRefreshing}">
+                        <listview:SfListView
+                            x:Name="listViewCosechadores"
+                            HeightRequest="290"
+                            ItemsSource="{Binding ListaCosechadores}"
+                            SelectionBackgroundColor="LightCoral">
+                            <listview:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalOptions="FillAndExpand">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="300" />
+                                            <ColumnDefinition Width="20" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label
+                                            x:Name="lblLstEmpleado"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Fill"
+                                            Text="{Binding Empleado}" />
+                                        <Label Grid.Column="1" Text="{Binding Revisiones}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </listview:SfListView.ItemTemplate>
+                        </listview:SfListView>
+                    </RefreshView>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+
+
+</ContentPage>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Corte.App.Views.Views.Login"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+    xmlns:controls="clr-namespace:Corte.App.Controls"
+    xmlns:converter="clr-namespace:Corte.App.Converters"
+    xmlns:core="clr-namespace:Syncfusion.XForms.Core;assembly=Syncfusion.Core.XForms"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="False"
+    mc:Ignorable="d">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:BooleanToColorConverter x:Key="ColorConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ScrollView HorizontalOptions="Center">
+        <ScrollView.VerticalOptions>
+            <OnIdiom
+                x:TypeArguments="LayoutOptions"
+                Default="CenterAndExpand"
+                Phone="FillAndExpand" />
+        </ScrollView.VerticalOptions>
+
+        <StackLayout
+            MinimumWidthRequest="100"
+            Spacing="30"
+            VerticalOptions="CenterAndExpand"
+            WidthRequest="300">
+
+
+            <!--  Label to display the title of this page  -->
+            <Label
+                FontFamily="{StaticResource Montserrat-SemiBold}"
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource LabelStyle}"
+                Text="Ingreso"
+                TextColor="{DynamicResource Gray-900}" />
+
+            <!--  Label to display the description of this page  -->
+            <Label
+                FontFamily="{StaticResource Montserrat-Medium}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource LabelStyle}"
+                Text="Meteoro corte"
+                TextColor="{DynamicResource Gray-800}" />
+
+            <!--  Entry code from user  -->
+            <border:SfBorder
+                BackgroundColor="{DynamicResource Gray-White}"
+                BorderColor="{Binding Source={x:Reference PasswordEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                Style="{StaticResource BusinessFormBorderStyle}">
+                <controls:BorderlessEntry
+                    x:Name="CodEntry"
+                    HeightRequest="60"
+                    Keyboard="Numeric"
+                    Placeholder="Código"
+                    PlaceholderColor="{DynamicResource Gray-700}"
+                    Style="{StaticResource EntryTextBoxStyle}"
+                    Text="{Binding Codigo}"
+                    TextColor="{DynamicResource Gray-900}" />
+            </border:SfBorder>
+            <!-- <local:SimpleEmailEntry Grid.Row="2" Padding="0,24" /> -->
+
+            <!--  Entry to get password from user  -->
+            <border:SfBorder
+                BackgroundColor="{DynamicResource Gray-White}"
+                BorderColor="{Binding Source={x:Reference PasswordEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
+                Style="{StaticResource BusinessFormBorderStyle}">
+                <controls:BorderlessEntry
+                    x:Name="PasswordEntry"
+                    HeightRequest="60"
+                    IsPassword="True"
+                    Keyboard="Numeric"
+                    Placeholder="Contraseña"
+                    PlaceholderColor="{DynamicResource Gray-700}"
+                    Style="{StaticResource EntryTextBoxStyle}"
+                    Text="{Binding Pass}"
+                    TextColor="{DynamicResource Gray-900}" />
+            </border:SfBorder>
+
+            <!--  Login button  -->
+            <Button
+                BackgroundColor="{DynamicResource LightGreen}"
+                Command="{Binding LoginCommand}"
+                CornerRadius="20"
+                FontFamily="{StaticResource Montserrat-SemiBold}"
+                FontSize="Micro"
+                Text="Ingresar"
+                TextColor="White" />
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Meteoro.API.Core.Interfaces;
 using Meteoro.Entities.Entities;
+using Meteoro.Entities.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Meteoro.API.Controllers
@@ -114,6 +116,32 @@ namespace Meteoro.API.Controllers
             {
                 return NoContent();
             }
+        }
+
+        [HttpGet("AsignarCosechadores/{revisiones}")]
+        public async Task<ActionResult> AseguradorEmpleados(int revisiones)
+        {
+            if (!revisiones.Equals(0))
+            {              
+                if (await _repository.AsignarCosechadores(revisiones))
+                {                                     
+                    return Ok();
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("CosechadoresAsignados")]
+        public async Task<ActionResult<IEnumerable<AseguradorEmpleadoListado>>> ListarCosechadoresAsignados()
+        {
+            return Ok(await _repository.ListarCosechadoresAsignados());
         }
     }
 }

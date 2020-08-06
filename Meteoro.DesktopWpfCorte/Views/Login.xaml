@@ -6,7 +6,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel;assembly=Meteoro.ViewModels"
+    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel.Corte;assembly=Meteoro.ViewModels"
     x:Name="frmLogin"
     Title="Ingreso Meteoro Corte"
     Width="590"
@@ -202,7 +202,7 @@
         <syncfusion:SfBusyIndicator
             Grid.Column="1"
             Margin="149,304,69,13"
-            AnimationType="Ripple"
+            AnimationType="Clock"
             FontSize="10"
             Foreground="DarkGreen"
             IsBusy="{Binding IsBusy}" />

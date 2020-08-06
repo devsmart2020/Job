@@ -39,7 +39,7 @@ namespace Meteoro.API.Infrastructure.Repositories
 
         public async Task<Tblmodalidad> GetById(dynamic id)
         {
-            return _context.Tblmodalidad.FindAsync(id);
+            return await _context.Tblmodalidad.FindAsync(id);
         }
 
         public async Task<int> Post(Tblmodalidad entity)

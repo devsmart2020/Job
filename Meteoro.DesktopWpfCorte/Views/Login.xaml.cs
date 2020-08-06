@@ -1,4 +1,4 @@
-﻿using Meteoro.ViewModels.ViewModel;
+﻿using Meteoro.ViewModels.ViewModel.Corte;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
