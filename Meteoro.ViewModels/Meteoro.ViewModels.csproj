@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Meteoro.Services\Meteoro.Services.csproj" />
   </ItemGroup>
 
