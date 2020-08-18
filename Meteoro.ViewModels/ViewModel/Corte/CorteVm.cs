@@ -13,18 +13,20 @@ namespace Meteoro.ViewModels.ViewModel.Corte
     {
         #region Members Variables
         private readonly CorteSvc _corteSvc;
-        private readonly AseguradorEmpleadoSvc _aseguradorEmpleadoSvc;
-        private SemanaVm _semanaVm;
-        private TbAseguradorEmpleado _aseguradorEmpleado;
+        private readonly AseguradorEmpleadoSvc _aseguradorEmpleadoSvc;  
+        private TbAseguradorEmpleado _aseguradorEmpleado;  
         private TbCorte _corte;
+        private SemanaVm _semanaVm;
         #endregion
 
         #region Constructor
         public CorteVm()
         {
-            _corteSvc = new CorteSvc();
+            _corteSvc = new CorteSvc(); 
             CrearCorteCommand = new Command(async () => await CrearCorte(), () => !IsBusy);
             ObtenerIdRevisionCommand = new Command(async () => await ObtenerIdRevision(), () => !IsBusy);
+            _semanaVm = new SemanaVm();
+            
         }
         #endregion
 
@@ -53,9 +55,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                     Follaje = Follaje,
                     Fitosanidad = Fitosanidad,
                     Presentacion = Presentacion,
-                    Apertura =Apertura,
+                    Apertura = Apertura,
                     Ramall = Ramall,
-                    Mezcla =Mezcla, 
+                    Mezcla = Mezcla,
                     Sync = Sync
                 };
                 if (_corte != null)
@@ -93,7 +95,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             try
             {
                 _aseguradorEmpleado = new TbAseguradorEmpleado()
-                {                   
+                {
                     Asegurador = Asegurador,
                     Empleado = Colaborador,
                     Fecha = DateTime.Today,
@@ -139,7 +141,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             }
         }
         private void Limpiar()
-        {           
+        {
             Colaborador = string.Empty;
             Asegurador = string.Empty;
             Categoria = default;
@@ -168,20 +170,24 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public int Id
         {
             get { return id; }
-            set { id = value;
-                NotifyPropertyChanged(); 
+            set
+            {
+                id = value;
+                NotifyPropertyChanged();
             }
         }
         private DateTime fecha;
 
         public DateTime Fecha
         {
-            get 
+            get
             {
                 fecha = DateTime.Today;
                 return fecha;
             }
-            set { fecha = value;
+            set
+            {
+                fecha = value;
                 NotifyPropertyChanged();
             }
         }
@@ -190,7 +196,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public int Año
         {
             get { return año; }
-            set { año = value;
+            set
+            {
+                año = value;
                 NotifyPropertyChanged();
             }
         }
@@ -198,8 +206,14 @@ namespace Meteoro.ViewModels.ViewModel.Corte
 
         public int Semana
         {
-            get { return semana; }
-            set { semana = value;
+            get
+            {
+                semana = _semanaVm.Semana;
+                return semana;
+            }
+            set
+            {
+                semana = value;
                 NotifyPropertyChanged();
             }
         }
@@ -207,12 +221,14 @@ namespace Meteoro.ViewModels.ViewModel.Corte
 
         public string Colaborador
         {
-            get 
-            { 
-           
+            get
+            {
+
                 return colaborador;
             }
-            set { colaborador = value;
+            set
+            {
+                colaborador = value;
                 NotifyPropertyChanged();
             }
         }
@@ -221,7 +237,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public string Asegurador
         {
             get { return asegurador; }
-            set { asegurador = value;
+            set
+            {
+                asegurador = value;
                 NotifyPropertyChanged();
             }
         }
@@ -230,7 +248,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public int Categoria
         {
             get { return categoria; }
-            set { categoria = value;
+            set
+            {
+                categoria = value;
                 NotifyPropertyChanged();
             }
         }
@@ -239,7 +259,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Deshoje
         {
             get { return deshoje; }
-            set { deshoje = value;
+            set
+            {
+                deshoje = value;
                 NotifyPropertyChanged();
             }
         }
@@ -248,7 +270,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool DañoMecanico
         {
             get { return dañoMecanico; }
-            set { dañoMecanico = value;
+            set
+            {
+                dañoMecanico = value;
                 NotifyPropertyChanged();
             }
         }
@@ -257,7 +281,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool NumTallo
         {
             get { return numTallo; }
-            set { numTallo = value;
+            set
+            {
+                numTallo = value;
                 NotifyPropertyChanged();
             }
         }
@@ -266,7 +292,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool FTallo
         {
             get { return fTallo; }
-            set { fTallo = value;
+            set
+            {
+                fTallo = value;
                 NotifyPropertyChanged();
             }
         }
@@ -275,7 +303,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Cauchos
         {
             get { return cauchos; }
-            set { cauchos = value;
+            set
+            {
+                cauchos = value;
                 NotifyPropertyChanged();
             }
         }
@@ -284,7 +314,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Longitud
         {
             get { return longitud; }
-            set { longitud = value;
+            set
+            {
+                longitud = value;
                 NotifyPropertyChanged();
             }
         }
@@ -293,7 +325,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool BaseC
         {
             get { return baseC; }
-            set { baseC = value;
+            set
+            {
+                baseC = value;
                 NotifyPropertyChanged();
             }
         }
@@ -302,7 +336,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Alineado
         {
             get { return alineado; }
-            set { alineado = value;
+            set
+            {
+                alineado = value;
                 NotifyPropertyChanged();
             }
         }
@@ -311,7 +347,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Follaje
         {
             get { return follaje; }
-            set { follaje = value;
+            set
+            {
+                follaje = value;
                 NotifyPropertyChanged();
             }
         }
@@ -320,7 +358,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Fitosanidad
         {
             get { return fitosanidad; }
-            set { fitosanidad = value;
+            set
+            {
+                fitosanidad = value;
                 NotifyPropertyChanged();
             }
         }
@@ -329,7 +369,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Presentacion
         {
             get { return presentacion; }
-            set { presentacion = value;
+            set
+            {
+                presentacion = value;
                 NotifyPropertyChanged();
             }
         }
@@ -338,7 +380,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Apertura
         {
             get { return apertura; }
-            set { apertura = value;
+            set
+            {
+                apertura = value;
                 NotifyPropertyChanged();
             }
         }
@@ -347,7 +391,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Ramall
         {
             get { return ramall; }
-            set { ramall = value;
+            set
+            {
+                ramall = value;
                 NotifyPropertyChanged();
             }
         }
@@ -356,7 +402,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Mezcla
         {
             get { return mezcla; }
-            set { mezcla = value;
+            set
+            {
+                mezcla = value;
                 NotifyPropertyChanged();
             }
         }
@@ -365,7 +413,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool Sync
         {
             get { return sync; }
-            set { sync = value;
+            set
+            {
+                sync = value;
                 NotifyPropertyChanged();
             }
         }
@@ -374,7 +424,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool IsBusy
         {
             get { return isBusy; }
-            set { isBusy = value;
+            set
+            {
+                isBusy = value;
                 NotifyPropertyChanged();
             }
         }
@@ -383,7 +435,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool IsSaved
         {
             get { return isSaved; }
-            set { isSaved = value;
+            set
+            {
+                isSaved = value;
                 NotifyPropertyChanged();
             }
         }
@@ -392,7 +446,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool NotSaved
         {
             get { return notSaved; }
-            set { notSaved = value;
+            set
+            {
+                notSaved = value;
                 NotifyPropertyChanged();
             }
         }
@@ -401,7 +457,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public bool IsError
         {
             get { return isEror; }
-            set { isEror = value;
+            set
+            {
+                isEror = value;
                 NotifyPropertyChanged();
             }
         }
@@ -411,7 +469,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public string Msj
         {
             get { return msj; }
-            set { msj = value;
+            set
+            {
+                msj = value;
                 NotifyPropertyChanged();
             }
         }
@@ -421,13 +481,14 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public int Revision
         {
             get { return revision; }
-            set { revision = value;
+            set
+            {
+                revision = value;
                 NotifyPropertyChanged();
             }
         }
 
         public TbAseguradorEmpleado AseguradorEmpleado { get; set; }
-
         #endregion
 
         #region Commands

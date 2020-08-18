@@ -11,5 +11,6 @@ namespace Meteoro.Corte.API.Core.Interfaces
         Task<IEnumerable<TbSemana>> Get();
         Task<TbSemana> GetById(dynamic id);
         Task<int> Delete(dynamic id);
+        Task<TbSemana> GetSemana(TbSemana entity);
     }
 }

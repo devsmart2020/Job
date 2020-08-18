@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Meteoro.ViewModels.ViewModel.Corte
 {
@@ -19,7 +20,8 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         #region Members Variables
         private EmpleadoSvc _service;
         private TbEmpleado _tblempleado;
-        private AreaVm _areaVm;       
+        private AreaVm _areaVm;
+        private SemanaVm _semanaVm;
         #endregion
 
         #region Constructor
@@ -27,11 +29,13 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         {
             _service = new EmpleadoSvc();
             _areaVm = new AreaVm();
-            LoginCommand = new Command(LoginExecute, CanExecuteMethod);
-            CrearEmpleadoCommand = new Command(CrearEmpleadoExecute, CanExecuteMethod);
-            LimpiarCommand = new Command(LimpiarExecute, CanExecuteMethod);
-            ActualizarEmpleadoCommand = new Command(ActualizarEmpleadoexecute, CanExecuteMethod);
-            ListarEmpleadoCommand = new Command(ListarEmpleadoExecute, CanExecuteMethod);
+            _semanaVm = new SemanaVm();
+            LoginCommand = new BaseViewModel.Command(LoginExecute, CanExecuteMethod);          
+            LoginAppCommand = new BaseViewModel.Command(LoginAppExecute, CanExecuteMethod);
+            CrearEmpleadoCommand = new BaseViewModel.Command(CrearEmpleadoExecute, CanExecuteMethod);
+            LimpiarCommand = new BaseViewModel.Command(LimpiarExecute, CanExecuteMethod);
+            ActualizarEmpleadoCommand = new BaseViewModel.Command(ActualizarEmpleadoexecute, CanExecuteMethod);
+            ListarEmpleadoCommand = new BaseViewModel.Command(ListarEmpleadoExecute, CanExecuteMethod);
             Task.Run(async () =>
             {
                 AreasList = await _areaVm.ListarAreasCmd();
@@ -39,8 +43,9 @@ namespace Meteoro.ViewModels.ViewModel.Corte
 
             Task.Run(async () =>
             {
+              
                 await ListarEmpleado();
-            });
+            });           
         }
 
         #endregion
@@ -53,6 +58,10 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         private async void LoginExecute(object parameter)
         {
             await Login();
+        }
+        private async void LoginAppExecute(object parameter)
+        {
+            await LoginApp();
         }
         private async void CrearEmpleadoExecute(object parameter)
         {
@@ -89,10 +98,11 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             IsBusy = true;
             try
             {
+              
                 _tblempleado = new TbEmpleado()
                 {
                     Codigo = Codigo,
-                    Pass = Pass
+                    Pass = Pass,                    
                 };
 
                 if (_tblempleado != null)
@@ -106,7 +116,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                         UsuarioConectado.DocId = UserLogued.DocId;
                         UsuarioConectado.Nombre = UserLogued.Nombre;
                         UsuarioConectado.Periodo = UserLogued.Periodo;
-                        UsuarioConectado.Area = UserLogued.Area;
+                        UsuarioConectado.Area = UserLogued.Area;                       
                         Msj = $"Bienvenido /a {UsuarioConectado.Nombre}";
                     }
                     else
@@ -133,6 +143,56 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                 Msj = ex.Message.ToString();
             }
         }
+        private protected async Task LoginApp()
+        {
+            IsBusy = true;
+            try
+            {
+                _tblempleado = new TbEmpleado()
+                {
+                    Codigo = Codigo,
+                    Pass = PassApp
+                };
+
+                if (_tblempleado != null)
+                {
+                    UserLogued = await _service.Login(_tblempleado);
+                    if (UserLogued.Nombre != null)
+                    {                        
+                        UsuarioConectado.Codigo = UserLogued.Codigo;
+                        UsuarioConectado.DocId = UserLogued.DocId;
+                        UsuarioConectado.Nombre = UserLogued.Nombre;
+                        UsuarioConectado.Periodo = UserLogued.Periodo;
+                        UsuarioConectado.Area = UserLogued.Area;
+                        Msj = $"Bienvenido /a {UsuarioConectado.Nombre}";
+                        await _semanaVm.GetSemanaCmd();
+                        IsLogued = true;                          
+                        IsBusy = false;
+                    }
+                    else
+                    {
+                        IsBusy = false;
+                        IsLogued = false;
+                        NotIsLogued = true;
+                        Msj = ResourceVm.MsjErrorLogin;
+                    }
+                }
+                else
+                {
+                    IsBusy = false;
+                    NotIsLogued = true;
+                    Msj = ResourceVm.MsjErrorEntidadVacia;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                NotIsLogued = true;
+                Msj = ex.Message.ToString();
+            }
+        }
+
         private protected async Task CrearEmpleado()
         {
             IsBusy = true;
@@ -313,6 +373,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         {
             get
             {
+
                 return codigo;
             }
             set
@@ -360,6 +421,17 @@ namespace Meteoro.ViewModels.ViewModel.Corte
 
             }
         }
+
+        private string passApp;
+
+        public string PassApp
+        {
+            get { return passApp; }
+            set { passApp = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private bool estado;
 
         public bool Estado
@@ -593,20 +665,6 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             }
         }
 
-       
-
-
-        #endregion
-
-        #region Commands
-        public ICommand LoginCommand { get; set; }
-        public ICommand CrearEmpleadoCommand { get; set; }
-        public ICommand ListarEmpleadoCommand { get; set; }
-        public ICommand LimpiarCommand { get; set; }
-        public ICommand ActualizarEmpleadoCommand { get; set; }
-        #endregion
-
-
         private SecureString securePassword;
         public SecureString SecurePassword
         {
@@ -621,6 +679,21 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                 NotifyPropertyChanged();
             }
         }
+
+
+        #endregion
+
+        #region Commands
+        public ICommand LoginCommand { get; set; }     
+        public ICommand LoginAppCommand { get; set; }
+        public ICommand CrearEmpleadoCommand { get; set; }
+        public ICommand ListarEmpleadoCommand { get; set; }
+        public ICommand LimpiarCommand { get; set; }
+        public ICommand ActualizarEmpleadoCommand { get; set; }
+        #endregion
+
+
+      
 
 
     }

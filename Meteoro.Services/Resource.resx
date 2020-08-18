@@ -124,7 +124,7 @@
     <value>http://10.10.44.132:9092/</value>
   </data>
   <data name="BaseUrlCorte" xml:space="preserve">
-    <value>http://10.10.44.132:64099/</value>
+    <value>http://10.10.44.132:6767/</value>
   </data>
   <data name="CrearCosechaURL" xml:space="preserve">
     <value>api/Cosechas</value>

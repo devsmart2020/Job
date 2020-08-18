@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Meteoro.Corte.API.Core.Interfaces;
+using Meteoro.Corte.Entities.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Meteoro.Corte.API.Core.Interfaces;
-using Meteoro.Corte.Entities.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Meteoro.Corte.API.Controllers
 {
@@ -116,6 +114,12 @@ namespace Meteoro.Corte.API.Controllers
             {
                 return NoContent();
             }
+        }
+
+        [HttpPost("SemanaActual")]
+        public async Task<ActionResult<TbSemana>> GetSemana(TbSemana entity)
+        {
+            return Ok(await _repository.GetSemana(entity));
         }
     }
 }

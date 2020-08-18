@@ -13,6 +13,7 @@ namespace Meteoro.Corte.API.Controllers
     [ApiController]
     public class AreasController : ControllerBase
     {
+        
         private readonly IAreaRepository _repository;
 
         public AreasController(IAreaRepository repository)

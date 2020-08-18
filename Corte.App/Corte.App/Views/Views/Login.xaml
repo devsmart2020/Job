@@ -10,9 +10,15 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sfbusy="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+    xmlns:viewmodel="clr-namespace:Meteoro.ViewModels.ViewModel.Corte;assembly=Meteoro.ViewModels"
     BackgroundColor="White"
     NavigationPage.HasNavigationBar="False"
     mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <viewmodel:EmpleadoVm />
+    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -74,6 +80,7 @@
             <!-- <local:SimpleEmailEntry Grid.Row="2" Padding="0,24" /> -->
 
             <!--  Entry to get password from user  -->
+            <!--  Entry code from user  -->
             <border:SfBorder
                 BackgroundColor="{DynamicResource Gray-White}"
                 BorderColor="{Binding Source={x:Reference PasswordEntry}, Path=IsFocused, Converter={StaticResource ColorConverter}, ConverterParameter=3}"
@@ -86,20 +93,40 @@
                     Placeholder="Contraseña"
                     PlaceholderColor="{DynamicResource Gray-700}"
                     Style="{StaticResource EntryTextBoxStyle}"
-                    Text="{Binding Pass}"
+                    Text="{Binding PassApp}"
                     TextColor="{DynamicResource Gray-900}" />
             </border:SfBorder>
 
             <!--  Login button  -->
             <Button
                 BackgroundColor="{DynamicResource LightGreen}"
-                Command="{Binding LoginCommand}"
+                Command="{Binding LoginAppCommand}"
                 CornerRadius="20"
                 FontFamily="{StaticResource Montserrat-SemiBold}"
                 FontSize="Micro"
                 Text="Ingresar"
                 TextColor="White" />
+
+            <sfbusy:SfBusyIndicator
+                Title="Un momento por favor..."
+                AnimationType="MovieTimer"
+                HeightRequest="100"
+                IsBusy="{Binding IsBusy}"
+                TextColor="{DynamicResource LightGreen}"
+                TitlePlacement="Bottom"
+                WidthRequest="20" />
+
+            <Label Text="{Binding Msj}" TextColor="Red" />
+            <CheckBox
+                x:Name="chklogin"
+                CheckedChanged="CheckBox_CheckedChanged"
+                IsChecked="{Binding IsLogued}"
+                IsVisible="false" />
+
         </StackLayout>
+
+
+
     </ScrollView>
 
 </ContentPage>

@@ -9,7 +9,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         public AseguradorEmpleadoVm AseguradorEmpleadoVm { get; set; }
         public CorteVm CorteVm { get; set; }
         public CategoriaVm CategoriaVm { get; set; }
-
+        public SemanaVm SemanaVm { get; set; }       
 
     }
 }

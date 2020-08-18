@@ -35,6 +35,7 @@ namespace Meteoro.Services.Corte.Services
             WebService<TbEmpleado>.InitializeClient();
             return await WebService<TbEmpleado>.LoginAsync(entity, $"{RutaApi}Login");
 
+
         }
 
         public async Task<bool> Post(TbEmpleado entity)

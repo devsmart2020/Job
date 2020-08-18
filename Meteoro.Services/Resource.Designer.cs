@@ -79,7 +79,7 @@ namespace Meteoro.Services {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a http://10.10.44.132:64099/.
+        ///   Busca una cadena traducida similar a http://10.10.44.132:6767/.
         /// </summary>
         internal static string BaseUrlCorte {
             get {

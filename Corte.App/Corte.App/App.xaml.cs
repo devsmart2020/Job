@@ -10,7 +10,7 @@ namespace Corte.App
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new Views.Views.Corte());
+            MainPage = new NavigationPage(new Views.Views.Login());
         }
 
         protected override void OnStart()

@@ -2,13 +2,13 @@
 using Meteoro.Corte.Entities.Helpers;
 using Meteoro.Services.Corte.Data;
 using Meteoro.Services.Corte.Services;
-using Meteoro.ViewModels.BaseViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Meteoro.ViewModels.ViewModel.Corte
 {
@@ -16,14 +16,16 @@ namespace Meteoro.ViewModels.ViewModel.Corte
     {
         #region Members Variables
         private readonly AseguradorEmpleadoSvc _service;
+        private readonly CorteVm _corteVm;
         #endregion
 
         #region Constructor
         public AseguradorEmpleadoVm()
         {
             _service = new AseguradorEmpleadoSvc();
-            AsignarCosechadoresCommand = new Command(AsignarCosechadoresExecute, CanExecuteMethod);
-            ListarCosechadoresAsignadosCommand = new Command(ListarCosechadoresAsignadosExecute, CanExecuteMethod);
+            _corteVm = new CorteVm();
+            AsignarCosechadoresCommand = new BaseViewModel.Command(AsignarCosechadoresExecute, CanExecuteMethod);
+            ListarCosechadoresAsignadosCommand = new BaseViewModel.Command(ListarCosechadoresAsignadosExecute, CanExecuteMethod);
             Task.Run(() =>
             {
                 ListarCosechadoresAsignadosCommand.Execute(null);
@@ -91,7 +93,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                 if (Tblaseguradorempleados.Any())
                 {
                     NumCosechadores = Tblaseguradorempleados.Where(x => x.Area.Equals(5)).Count();
-                    NumAseguradores = Tblaseguradorempleados.GroupBy(x => x.Asegurador).Count();
+                    NumAseguradores = Tblaseguradorempleados.GroupBy(x => x.Asegurador).Count();                    
                 }
                 IsBusy = false;
             }
@@ -102,6 +104,20 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                 Msj = $"{ex}";
             }
         }
+        private async void HandleSelected()
+        {
+            try
+            {
+                Empleado = SelectedEmpleadoAseg.GetType().GetProperty("Colaborador").GetValue(SelectedEmpleadoAseg, null).ToString();//Obtener Propiedades del objeto    
+                Revisiones = Convert.ToInt32(SelectedEmpleadoAseg.GetType().GetProperty("Revisiones").GetValue(SelectedEmpleadoAseg, null));
+                _corteVm.Revision = Revisiones;
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok");
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -124,6 +140,17 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             set
             {
                 empleado = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string nombre;
+        public string Nombre
+        {
+            get { return nombre; }
+            set
+            {
+                nombre = value;
                 NotifyPropertyChanged();
             }
         }
@@ -185,6 +212,26 @@ namespace Meteoro.ViewModels.ViewModel.Corte
                 NotifyPropertyChanged();
             }
         }
+
+        private bool isRefreshing;
+
+        public bool IsRefreshing
+        {
+            get
+            {
+                Task.Run(async () =>
+                {
+                    await ListarCosechadoresAsignados();
+                });
+                return isRefreshing; 
+            }
+            set
+            {
+                isRefreshing = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private string msj;
 
         public string Msj
@@ -247,7 +294,6 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             }
         }
 
-
         private bool setRevisiones;
 
         public bool SetRevisiones
@@ -257,6 +303,21 @@ namespace Meteoro.ViewModels.ViewModel.Corte
             {
                 setRevisiones = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        private object selectedEmpleadoAseg;
+        public object SelectedEmpleadoAseg
+        {
+            get { return selectedEmpleadoAseg; }
+            set
+            {
+                if (selectedEmpleadoAseg != value)
+                {
+                    selectedEmpleadoAseg = value;
+                    HandleSelected();
+                    NotifyPropertyChanged();
+                }
             }
         }
         #endregion

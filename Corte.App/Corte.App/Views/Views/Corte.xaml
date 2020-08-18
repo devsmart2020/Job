@@ -94,17 +94,12 @@
                     <Label
                         x:Name="lblCosechador"
                         FontFamily="{StaticResource Montserrat-Medium}"
-                        FontSize="16"
-                        Text="{Binding Nombre, Mode=TwoWay}"
+                        FontSize="13"
+                        Text="{Binding Empleado, Mode=TwoWay}"
                         TextColor="LightCoral"
                         VerticalOptions="Center"
                         VerticalTextAlignment="Center" />
-                    <Label
-                        x:Name="lblCodEmpleado"
-                        FontFamily="{StaticResource Montserrat-Medium}"
-                        FontSize="10"
-                        Text="{Binding Empleado, Mode=TwoWay}"
-                        VerticalTextAlignment="Center" />
+
                 </StackLayout>
 
                 <!--  Categoria  -->
@@ -115,14 +110,18 @@
                     Style="{StaticResource BusinessFormBorderStyle}">
                     <combobox:SfComboBox
                         x:Name="comboBox"
-                        ComboBoxSource="{Binding CargarModalidadCommand}"
-                        DataSource="{Binding ListaModalidad}"
+                        ComboBoxSource="{Binding GetCategoriasCommand}"
+                        DataSource="{Binding Categorias}"
                         DisplayMemberPath="Nombre"
                         HeightRequest="43"
                         MultiSelectMode="None"
-                        SelectedItem="{Binding CodModalidad}"
+                        SelectedItem="{Binding Id}"
                         Style="{StaticResource ComboBoxStyle}"
-                        Text="Seleccione categoría..." />
+                        Text="Seleccione categoría...">
+                        <combobox:SfComboBox.BindingContext>
+                            <viewmodel:CategoriaVm />
+                        </combobox:SfComboBox.BindingContext>
+                    </combobox:SfComboBox>
                 </border:SfBorder>
 
 
@@ -171,7 +170,7 @@
                     CornerRadius="4"
                     FontFamily="{StaticResource Montserrat-Medium}"
                     FontSize="16"
-                    IsChecked="{Binding FTallo, Mode=TwoWay}"
+                    IsChecked="{Binding Puntos Florales, Mode=TwoWay}"
                     Text="F Tallos"
                     TextColor="{DynamicResource Gray-800}"
                     Visual="Material" />
@@ -211,7 +210,7 @@
                     CornerRadius="4"
                     FontFamily="{StaticResource Montserrat-Medium}"
                     FontSize="16"
-                    IsChecked="{Binding BaseC, Mode=TwoWay}"
+                    IsChecked="{Binding Base Ramo, Mode=TwoWay}"
                     Text="Base"
                     TextColor="{DynamicResource Gray-800}"
                     Visual="Material" />
@@ -289,7 +288,7 @@
                     CornerRadius="4"
                     FontFamily="{StaticResource Montserrat-Medium}"
                     FontSize="16"
-                    IsChecked="{Binding Ramall, Mode=TwoWay}"
+                    IsChecked="{Binding Ramo Malla, Mode=TwoWay}"
                     Text="Ramall"
                     TextColor="{DynamicResource Gray-800}"
                     Visual="Material" />
@@ -321,9 +320,14 @@
                     <Label
                         FontFamily="{StaticResource Montserrat-Medium}"
                         FontSize="16"
-                        Text="{Binding Fecha}"
-                        TextColor="{DynamicResource Gray-800}" />
+                        Text="{Binding Fecha, StringFormat='{0:MMMM dd,yyyy}'}"
+                        TextColor="{DynamicResource Gray-800}">
+                        <Label.BindingContext>
+                            <viewmodel:CorteVm />
+                        </Label.BindingContext>
+                    </Label>
                     <Label
+                        Margin="15,0,0,0"
                         FontFamily="{StaticResource Montserrat-Medium}"
                         FontSize="16"
                         Text="Semana: "
@@ -332,9 +336,12 @@
                         FontFamily="{StaticResource Montserrat-Medium}"
                         FontSize="16"
                         Text="{Binding Semana}"
-                        TextColor="{DynamicResource Gray-800}" />
+                        TextColor="{DynamicResource Gray-800}">
+                        <Label.BindingContext>
+                            <viewmodel:SemanaVm />
+                        </Label.BindingContext>
+                    </Label>
                 </StackLayout>
-
 
                 <!--  Guardar  -->
                 <Button
@@ -363,36 +370,45 @@
                 <!--  Lista Cosechadores  -->
                 <StackLayout Grid.Row="14" Grid.ColumnSpan="2">
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Pendientes: " />
-                        <Label x:Name="lblCosechadoresPendientes" Text="{Binding CosechadoresPendientes}" />
+                        <Label Margin="0,0,0,20" Text="Pendientes: " />
+                        <Label
+                            x:Name="lblCosechadoresPendientes"
+                            Text="{Binding CosechadoresPendientes}"
+                            TextColor="Red" />
                     </StackLayout>
                     <RefreshView
-                        Command="{Binding CargarCosechadoresCommand}"
+                        Command="{Binding ListarCosechadoresAsignadosCommand}"
                         HeightRequest="390"
                         IsRefreshing="{Binding IsRefreshing}">
                         <listview:SfListView
                             x:Name="listViewCosechadores"
                             HeightRequest="290"
-                            ItemsSource="{Binding ListaCosechadores}"
+                            ItemTapped="listViewCosechadores_ItemTapped"
+                            ItemsSource="{Binding Tblaseguradorempleados}"
                             SelectionBackgroundColor="LightCoral">
                             <listview:SfListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="300" />
-                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
                                         <Label
                                             x:Name="lblLstEmpleado"
                                             Grid.Column="0"
-                                            HorizontalOptions="Fill"
-                                            Text="{Binding Empleado}" />
-                                        <Label Grid.Column="1" Text="{Binding Revisiones}" />
+                                            Text="{Binding Colaborador}" />
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="0,0,0,0"
+                                            Text="{Binding Revisiones}" />
                                     </Grid>
                                 </DataTemplate>
                             </listview:SfListView.ItemTemplate>
                         </listview:SfListView>
                     </RefreshView>
+                    <StackLayout.BindingContext>
+                        <viewmodel:AseguradorEmpleadoVm />
+                    </StackLayout.BindingContext>
                 </StackLayout>
             </Grid>
         </StackLayout>

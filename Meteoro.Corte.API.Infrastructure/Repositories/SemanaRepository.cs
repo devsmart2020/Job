@@ -2,7 +2,9 @@
 using Meteoro.Corte.API.Infrastructure.Data;
 using Meteoro.Corte.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Meteoro.Corte.API.Infrastructure.Repositories
@@ -37,6 +39,13 @@ namespace Meteoro.Corte.API.Infrastructure.Repositories
         public async Task<TbSemana> GetById(dynamic id)
         {
             return await _context.TbSemana.FindAsync(id);
+        }
+
+        public async Task<TbSemana> GetSemana(TbSemana entity)
+        {
+            return await _context.TbSemana
+                .Where(x => x.FechaFin >= DateTime.Today && x.FechaIni <= DateTime.Today).FirstOrDefaultAsync();
+
         }
 
         public async Task<int> Post(TbSemana entity)

@@ -115,7 +115,6 @@ namespace Meteoro.Services.Corte.Data
                         return null;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -124,6 +123,33 @@ namespace Meteoro.Services.Corte.Data
             }
         }
 
+
+        public static async Task<T> GetPostEntity(string url, T entity)
+        {
+            try
+            {
+                using (HttpResponseMessage response = await _client.PostAsJsonAsync(url, entity))
+                {
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonstring = await response.Content.ReadAsStringAsync();
+                        T model = JsonConvert.DeserializeObject<T>(jsonstring);
+                        return model;
+                    }
+                    else
+                    {
+                        ExceptionMsj = response.ReasonPhrase.ToString();
+                        return default;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionMsj = ex.Message.ToString();
+                return default;
+            }
+        }
 
         public static async Task<T> GetByIdAsync(T entity, string url)
         {
@@ -168,7 +194,6 @@ namespace Meteoro.Services.Corte.Data
                         return false;
                     }
                 }
-
             }
             catch (Exception ex)
             {
