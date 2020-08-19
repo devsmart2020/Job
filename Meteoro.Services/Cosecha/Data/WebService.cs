@@ -13,8 +13,10 @@ namespace Meteoro.Services.Data
 
         public static void InitializeClient()
         {
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri(Resource.BaseUrlCorte);
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(Resource.BaseUrlCorte)
+            };
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(Resource.RequestHeaders));

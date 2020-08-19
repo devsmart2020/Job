@@ -29,7 +29,7 @@ namespace Meteoro.ViewModels.ViewModel.Corte
         {
             _service = new EmpleadoSvc();
             _areaVm = new AreaVm();
-            _semanaVm = new SemanaVm();
+            //_semanaVm = new SemanaVm();
             LoginCommand = new BaseViewModel.Command(LoginExecute, CanExecuteMethod);          
             LoginAppCommand = new BaseViewModel.Command(LoginAppExecute, CanExecuteMethod);
             CrearEmpleadoCommand = new BaseViewModel.Command(CrearEmpleadoExecute, CanExecuteMethod);
